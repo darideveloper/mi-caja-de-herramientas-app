@@ -1,4 +1,9 @@
-import { Text, View } from 'react-native';
+// Components
+import { View } from 'react-native';
+import Text from './ui/Text';
+import Title from './ui/Title';
+import Video from './ui/Video';
+import Cta from './ui/Cta';
 
 export const EditScreenInfo = ({ path }: { path: string }) => {
   const title = 'Open up the code for this screen:';
@@ -7,23 +12,24 @@ export const EditScreenInfo = ({ path }: { path: string }) => {
 
   return (
     <View>
-      <View className={styles.getStartedContainer}>
-        <Text className={styles.getStartedText}>{title}</Text>
-        <View className={styles.codeHighlightContainer + styles.homeScreenFilename}>
-          <Text>{path}</Text>
+      <View className="mx-4 mt-2 items-center">
+        <Title
+          className={`
+          `}
+        >
+          !Bienvenido!
+        </Title>
+
+        <Video 
+          src={"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"} 
+        />
+
+        <Cta/>
+
+        <View className="my-2 rounded-md px-1">
         </View>
-        <Text className={styles.getStartedText}>{description}</Text>
+        <Text className="text-center text-lg leading-6">{description}</Text>
       </View>
     </View>
   );
-};
-
-const styles = {
-  codeHighlightContainer: `rounded-md px-1`,
-  getStartedContainer: `items-center mx-12`,
-  getStartedText: `text-lg leading-6 text-center`,
-  helpContainer: `items-center mx-5 mt-4`,
-  helpLink: `py-4`,
-  helpLinkText: `text-center`,
-  homeScreenFilename: `my-2`,
 };
