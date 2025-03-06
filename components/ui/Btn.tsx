@@ -21,7 +21,7 @@ export default function Btn({ iconUrl = '', title, className }: BtnProps) {
       onPressIn={() => setIsHover(true)}
       onPressOut={() => setIsHover(false)}
       className={`
-        w-11/12
+        w-10/12
         bg-white
         rounded-full
         duration-600

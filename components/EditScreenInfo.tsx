@@ -1,5 +1,6 @@
 // Components
-import { View, FlatList } from 'react-native';
+import { View, FlatList, ScrollView} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Title from './ui/Title';
 import Video from './ui/Video';
 import Cta from './ui/Cta';
@@ -40,7 +41,7 @@ export const EditScreenInfo = ({ path }: { path: string }) => {
   ];
 
   return (
-    <View>
+    <ScrollView>
       <View className="mx-4 mt-2 items-center">
         <Title
           className={`
@@ -79,8 +80,26 @@ export const EditScreenInfo = ({ path }: { path: string }) => {
               gap: 12,
             }}
           />
+          <FlatList 
+            data={categoriesData}
+            renderItem={({ item }) => (
+              <Btn
+                iconUrl={item.icon}
+                title={item.name}
+              />
+            )}
+            className={`
+              w-full
+            `}
+            contentContainerStyle={{ 
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 12,
+            }}
+          />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };

@@ -1,4 +1,5 @@
 import { Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { EditScreenInfo } from './EditScreenInfo';
 
@@ -9,15 +10,16 @@ type ScreenContentProps = {
 };
 
 export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
+  
+  const insets = useSafeAreaInsets();
+  
   return (
-    <View 
+    <View  
       className={`
-        items-center
-        flex-1
-        justify-center
         bg-purple
         text-black
       `}
+      style={{paddingTop: insets.top}}
     >
       <EditScreenInfo path={path} />
       {children}
