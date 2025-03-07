@@ -14,6 +14,8 @@ export default function Hero() {
         flex-col
         items-center
         justify-center
+        px-6
+        mx-auto
       `}
     >
       <Title >

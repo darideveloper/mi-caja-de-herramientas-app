@@ -13,7 +13,6 @@ import glow from '../../assets/imgs/glow.png';
 import { useState } from 'react';
 
 export default function Cta({}) {
-  
   const [isHover, setIsHover] = useState(false);
 
   return (
@@ -28,28 +27,36 @@ export default function Cta({}) {
         ${isHover ? 'scale-110' : 'scale-100'}
       `}
       onPressIn={() => setIsHover(true)}
-      onPressOut={() => setIsHover(false)}>
+      onPressOut={() => setIsHover(false)}
+    >
+
       <LinearGradient
         colors={['#9B85AC', '#3A2647BB']}
         start={[0, 0]}
         end={[1, 0]}
         className={`
-          duration-600
           relative
-          flex
           w-full
+          flex
           flex-row
           items-center
           justify-center
-          gap-16
           transition
+          duration-600
+          py-4
           ${isHover ? 'opacity-75' : 'opacity-100'}
         `}>
+
         <Title
           className={`
+            w-full
+            text-center
+            !my-0
+            mr-5
           `}>
           Sorpréndeme
         </Title>
+
         <Image
           source={glow}
           className={`
@@ -57,11 +64,11 @@ export default function Cta({}) {
             right-0
             top-0
             mr-12
-            mt-2
-            h-10
+            h-16
             w-auto
           `}
         />
+
         <FontAwesome
           name="random"
           size={24}
@@ -69,12 +76,12 @@ export default function Cta({}) {
           className={`
             absolute
             right-0
-            top-1/2
             mr-8
-            -translate-y-1/2
           `}
         />
+
       </LinearGradient>
+      
     </Pressable>
   );
 }

@@ -2,19 +2,23 @@
 import { View, ScrollView} from 'react-native';
 
 // Sections
-import Hero from './layouts/hero';
+import Hero from './layouts/Hero';
 import CategoryButtons from './layouts/CategoryButtons';
+import RecentPosts from './layouts/RecentPosts';
+
 
 export const EditScreenInfo = ({ path }: { path: string }) => {
   
 
   return (
     <ScrollView>
-      <View className="mx-4 mt-2 items-center">
-        
+      <View>
+
         <Hero />
 
         <CategoryButtons />
+
+        <RecentPosts />
 
       </View>
     </ScrollView>

@@ -6,12 +6,12 @@ import Text from './Text'
 import { useState } from 'react'
 
 interface BtnProps {
-  iconUrl?: string,
+  iconSource: any,
   title: string,
   className?: string
 }
 
-export default function Btn({ iconUrl = '', title, className }: BtnProps) {
+export default function Btn({ iconSource, title, className }: BtnProps) {
 
   const [isHover, setIsHover] = useState(false)
 
@@ -43,7 +43,7 @@ export default function Btn({ iconUrl = '', title, className }: BtnProps) {
         `}
       >
         <Image 
-          source={{uri: iconUrl}}
+          source={iconSource}
           className={`
             w-10
             h-10

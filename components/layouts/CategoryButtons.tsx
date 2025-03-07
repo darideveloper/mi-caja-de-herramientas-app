@@ -54,7 +54,7 @@ export default function CategoryButtons() {
         categoriesData.map((category) => (
           <Btn
             key={category.id}
-            iconUrl={category.icon}
+            iconSource={{"uri": category.icon}}
             title={category.name}
           />
         ))
