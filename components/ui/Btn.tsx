@@ -6,12 +6,12 @@ import Text from './Text'
 import { useState } from 'react'
 
 interface BtnProps {
-  iconSource: any,
+  iconSource?: any,
   title: string,
   className?: string
 }
 
-export default function Btn({ iconSource, title, className }: BtnProps) {
+export default function Btn({ iconSource = "", title, className }: BtnProps) {
 
   const [isHover, setIsHover] = useState(false)
 
@@ -42,13 +42,17 @@ export default function Btn({ iconSource, title, className }: BtnProps) {
           py-2
         `}
       >
-        <Image 
-          source={iconSource}
-          className={`
-            w-10
-            h-10
-          `}
-        />
+
+        {
+          iconSource && 
+          <Image 
+            source={iconSource}
+            className={`
+              w-10
+              h-10
+            `}
+          />
+        }
 
         <Text
           className={`

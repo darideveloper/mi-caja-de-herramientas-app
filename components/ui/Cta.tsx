@@ -11,13 +11,19 @@ import glow from '../../assets/imgs/glow.png';
 
 // Libs
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Cta({}) {
+
+  // States
   const [isHover, setIsHover] = useState(false);
+
+  // Navigation
+  const navigation = useNavigation<any>();
 
   return (
     <Pressable
-      onPress={() => alert('Hello World!')}
+      onPress={() => navigation.navigate('Favorites') }
       className={`
         duration-600
         w-10/12
