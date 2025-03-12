@@ -5,8 +5,7 @@ import { View, ScrollView } from 'react-native';
 import Text from '../components/ui/Text';
 
 
-export const favoritesScreen = ({ path }: { path: string }) => {
-  
+export default function FavoritesScreen({navigation}: {navigation: any}) {  
 
   return (
     <ScrollView>
