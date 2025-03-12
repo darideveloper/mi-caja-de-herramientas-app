@@ -1,14 +1,23 @@
 // Layout
 import RootLayout from 'layouts/RootLayout';
 
-// Sections
-import Text from '../components/ui/Text';
+// Components
+
+import Title from 'components/ui/Title';
 
 
-export default function FavoritesScreen({navigation}: {navigation: any}) {  
+export default function FavoritesScreen() {  
+
   return (
     <RootLayout>
-      <Text>favoritesScreen</Text>      
+      <Title
+        className={`
+          text-white
+          h-40
+        `}
+      >
+        Próximamente
+      </Title>      
     </RootLayout>
   );
 };

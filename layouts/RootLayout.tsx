@@ -1,5 +1,5 @@
 // Components
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 
 // Libs
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -17,12 +17,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
       className={`
         bg-purple
         text-black
+        flex-1
+        relative
+        items-center
+        justify-center
       `}
       style={{paddingTop: insets.top + 10}}
     >
-      <ScrollView>
-        {children}
-      </ScrollView>
+      {children}
     </View>
   );
 }
