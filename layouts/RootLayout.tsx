@@ -1,6 +1,6 @@
 // Components
 import { View } from 'react-native';
-import Nav from '../components/ui/Nav';
+import Nav from '../components/layouts/Nav';
 
 // Libs
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

@@ -1,11 +1,18 @@
 // Components
-import Btn from './Btn';
-import Title from './Title';
+import Btn from '../ui/Btn';
+import Title from '../ui/Title';
 import { View } from 'react-native';
+
+// Libs
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function Nav() {
+
+  // Buttons names
   const buttons = ['Home', 'Favorites'];
+
+  const navigation = useNavigation<any>();
 
   return (
     <View
@@ -44,6 +51,7 @@ export default function Nav() {
                 w-11/12
               `}
               variant='dark'
+              onPress={() => navigation.navigate(button)}
             >
               <Title
                 className={`
