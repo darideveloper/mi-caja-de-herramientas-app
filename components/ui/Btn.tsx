@@ -1,19 +1,25 @@
 // Components
 import { Pressable, Image, View } from 'react-native'
-import Text from './Text'
 
 // Libs 
 import { useState } from 'react'
 
 interface BtnProps {
   iconSource?: any,
-  title: string,
-  className?: string
+  className?: string,
+  variant?: 'light' | 'dark',
+  children: React.ReactNode
 }
 
-export default function Btn({ iconSource = "", title, className }: BtnProps) {
+export default function Btn({ iconSource = "", className = "", variant="light", children }: BtnProps) {
 
   const [isHover, setIsHover] = useState(false)
+
+  if (variant === 'light') {
+    className += ' bg-white'
+  } else {
+    className += ' bg-purpleDark'
+  }
 
   return (
     <Pressable
@@ -22,7 +28,6 @@ export default function Btn({ iconSource = "", title, className }: BtnProps) {
       onPressOut={() => setIsHover(false)}
       className={`
         w-10/12
-        bg-white
         rounded-full
         duration-600
         transition
@@ -54,13 +59,7 @@ export default function Btn({ iconSource = "", title, className }: BtnProps) {
           />
         }
 
-        <Text
-          className={`
-            w-10/12
-          `}
-        >
-          {title}
-        </Text>
+        {children}
       </View>
     </Pressable>
 

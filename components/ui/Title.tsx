@@ -27,7 +27,7 @@ export default function Title({ children, className="", variant="light" }: Title
       style={[{ fontFamily: 'BalsamiqSans-Regular' }]}
       className={`
         my-6
-        text-3xl 
+        text-2xl 
         ${textColor}
         ${className}
       `}

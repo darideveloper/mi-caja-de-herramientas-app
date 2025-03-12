@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 import Btn from '../ui/Btn';
+import Text from '../ui/Text';
 
 
 export default function CategoryButtons() {
@@ -55,8 +56,15 @@ export default function CategoryButtons() {
           <Btn
             key={category.id}
             iconSource={{"uri": category.icon}}
-            title={category.name}
-          />
+          >
+            <Text
+              className={`
+                w-11/12
+              `}
+            >
+              {category.name}
+            </Text>
+          </Btn>
         ))
       }
     </View>

@@ -1,8 +1,10 @@
 // Components
 import { View } from 'react-native';
+import Nav from '../components/ui/Nav';
 
 // Libs
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -22,9 +24,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
         items-center
         justify-center
       `}
-      style={{paddingTop: insets.top + 10}}
+      style={{
+        paddingTop: insets.top + 10,
+        paddingBottom: 65,
+      }}
     >
       {children}
+      <Nav />
     </View>
   );
 }

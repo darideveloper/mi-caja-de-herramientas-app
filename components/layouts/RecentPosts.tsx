@@ -2,6 +2,8 @@
 import { View } from 'react-native';
 import Title from '../ui/Title';
 import Btn from 'components/ui/Btn';
+import Text from 'components/ui/Text';
+
 
 export default function RecentPosts() {
   const icons: { [key in 'video' | 'social' | 'audio']: any } = {
@@ -49,7 +51,7 @@ export default function RecentPosts() {
         bg-white
         w-full
         mt-12
-        pt-6
+        py-6
         rounded-t-3xl
         px-8
       `}
@@ -75,12 +77,19 @@ export default function RecentPosts() {
         {postData.map((post) => (
           <Btn 
             key={post.id}
-            title={post.title}
             iconSource={icons[post.post_type]}
             className={`
               w-full
             `}
-          />
+          >
+            <Text
+              className={`
+                w-10/12  
+              `}
+            >
+              {post.title}
+            </Text>
+          </Btn>
         ))}
       </View>
     </View>
