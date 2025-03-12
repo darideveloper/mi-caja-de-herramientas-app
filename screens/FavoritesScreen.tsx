@@ -1,17 +1,14 @@
-// Components
-import { View, ScrollView } from 'react-native';
+// Layout
+import RootLayout from 'layouts/RootLayout';
 
 // Sections
 import Text from '../components/ui/Text';
 
 
 export default function FavoritesScreen({navigation}: {navigation: any}) {  
-
   return (
-    <ScrollView>
-      <View>
-        <Text>favoritesScreen</Text>
-      </View>
-    </ScrollView>
+    <RootLayout>
+      <Text>favoritesScreen</Text>      
+    </RootLayout>
   );
 };

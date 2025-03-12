@@ -1,25 +1,17 @@
-// Components
-import { View, ScrollView} from 'react-native';
+// Layout
+import RootLayout from 'layouts/RootLayout';
 
 // Sections
 import Hero from '../components/layouts/Hero';
 import CategoryButtons from '../components/layouts/CategoryButtons';
 import RecentPosts from '../components/layouts/RecentPosts';
 
-
-export default function Home({navigation}: {navigation: any}) {
-  
+export default function Home() {
   return (
-    <ScrollView>
-      <View>
-
-        <Hero />
-
-        <CategoryButtons />
-
-        <RecentPosts />
-
-      </View>
-    </ScrollView>
+    <RootLayout>
+      <Hero />
+      <CategoryButtons />
+      <RecentPosts />
+    </RootLayout>
   );
-};
+}

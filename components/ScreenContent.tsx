@@ -4,12 +4,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EditScreenInfo } from './EditScreenInfo';
 
 type ScreenContentProps = {
-  title: string;
   path: string;
   children?: React.ReactNode;
 };
 
-export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
+export const ScreenContent = ({ path, children }: ScreenContentProps) => {
   
   const insets = useSafeAreaInsets();
   

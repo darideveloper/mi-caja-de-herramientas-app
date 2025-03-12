@@ -3,12 +3,13 @@ import { StatusBar } from 'expo-status-bar';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import './global.css';
-
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 
+import './global.css';
+
+// Setup screens
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Home',
   screens: {
@@ -20,11 +21,10 @@ const RootStack = createNativeStackNavigator({
     headerShown: false,
   },
 });
-
 const Navigation = createStaticNavigation(RootStack);
 
-
 export default function App() {
+
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />
