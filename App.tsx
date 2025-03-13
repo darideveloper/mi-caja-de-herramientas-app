@@ -1,34 +1,45 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { createStaticNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 
+// Components
+import Nav from './components/layouts/Nav';
+import { View } from 'react-native';
+
+// Styles
 import './global.css';
 
 // Setup screens
-const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Home',
-  screens: {
-    Home: HomeScreen,
-    Favorites: FavoritesScreen,
-  },
-  screenOptions: {
-    headerStyle: { backgroundColor: 'tomato' },
-    headerShown: false,
-  },
-});
-const Navigation = createStaticNavigation(RootStack);
+const RootStack = createNativeStackNavigator();
 
 export default function App() {
-
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />
-      <Navigation/>
+      <NavigationContainer>
+
+        {/* Page conteiner*/}
+        <View style={{ flex: 1 }}>
+          <RootStack.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+              headerShown: false, // Hide default header
+            }}
+          >
+            {/* Pages */}
+            <RootStack.Screen name="Home" component={HomeScreen} />
+            <RootStack.Screen name="Favorites" component={FavoritesScreen} />
+          </RootStack.Navigator>
+          
+          {/* Custom header / Nav bar */}
+          <Nav />
+        </View>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }
