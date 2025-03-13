@@ -4,8 +4,26 @@ import Title from '../ui/Title';
 import Video from '../ui/Video';
 import Cta from '../ui/Cta';
 
+// Hooks
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
+
 
 export default function Hero() {
+
+  const [autoplay, setAutoplay] = useState(false);
+
+  useEffect(() => {
+    async function checkUser() {
+      const isFirstOpen = await AsyncStorage.getItem('isFirstOpen')
+      if (isFirstOpen) {
+        setAutoplay(true);
+      }
+    }
+    checkUser();
+  }, []);
+
+
   return (
     <View
       className={`
@@ -24,6 +42,7 @@ export default function Hero() {
 
       <Video
         src={'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+        autoPlay={autoplay}
       />
 
       <Cta />

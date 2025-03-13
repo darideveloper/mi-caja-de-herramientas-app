@@ -5,7 +5,6 @@ import { View } from 'react-native';
 
 // Libs
 import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
 import { useNavigationState } from '@react-navigation/native';
 
 
