@@ -10,6 +10,7 @@ interface BtnProps {
   variant?: 'light' | 'dark';
   children: React.ReactNode;
   onPress: () => void;
+  disabled?: boolean;
 }
 
 export default function Btn({
@@ -17,7 +18,8 @@ export default function Btn({
   className = '',
   variant = 'light',
   children,
-  onPress,
+  onPress = () => {},
+  disabled = false,
 }: BtnProps) {
   const [isHover, setIsHover] = useState(false);
 
@@ -40,7 +42,11 @@ export default function Btn({
         ${isHover ? 'scale-105' : 'scale-100'}
         ${isHover ? 'opacity-75' : 'opacity-100'}
         ${className}
-      `}>
+        ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
+        ${disabled ? 'opacity-50' : 'opacity-100'}
+      `}
+      disabled={disabled}
+    >
       <View
         className={`
           flex

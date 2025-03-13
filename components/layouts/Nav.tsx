@@ -5,14 +5,16 @@ import { View } from 'react-native';
 
 // Libs
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { useNavigationState } from '@react-navigation/native';
 
 
 export default function Nav() {
-
-  // Buttons names
+  
+  // Navigation buttons
   const buttons = ['Home', 'Favorites'];
-
   const navigation = useNavigation<any>();
+  const currentRoute = useNavigationState(state => state?.routes[state.index]?.name ?? 'Home');
 
   return (
     <View
@@ -52,6 +54,7 @@ export default function Nav() {
               `}
               variant='dark'
               onPress={() => navigation.navigate(button)}
+              disabled={currentRoute === button}
             >
               <Title
                 className={`
