@@ -9,9 +9,10 @@ import { loginGuest } from '../lib/auth'
 
 interface RootLayoutProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children, className }: RootLayoutProps) {
 
   const insets = useSafeAreaInsets();
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <View 
       className={`
+        ${className}
         bg-purple
         text-black
         flex-1

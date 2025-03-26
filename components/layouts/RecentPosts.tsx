@@ -81,6 +81,7 @@ export default function RecentPosts() {
             className={`
               w-full
             `}
+            onPress={() => {}}
           >
             <Text
               className={`

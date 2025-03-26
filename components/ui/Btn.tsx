@@ -8,7 +8,7 @@ interface BtnProps {
   iconSource?: any;
   className?: string;
   variant?: 'light' | 'dark';
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onPress: () => void;
   disabled?: boolean;
 }
@@ -39,9 +39,9 @@ export default function Btn({
         w-10/12
         rounded-full
         transition
+        ${className}
         ${isHover ? 'scale-105' : 'scale-100'}
         ${isHover ? 'opacity-75' : 'opacity-100'}
-        ${className}
         ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
         ${disabled ? 'opacity-50' : 'opacity-100'}
       `}

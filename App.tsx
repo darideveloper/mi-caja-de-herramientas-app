@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
+import Post from './screens/Post';
 
 // Components
 import Nav from './components/layouts/Nav';
@@ -26,7 +27,7 @@ export default function App() {
         {/* Page conteiner*/}
         <View style={{ flex: 1 }}>
           <RootStack.Navigator
-            initialRouteName="Home"
+            initialRouteName="Post"
             screenOptions={{
               headerShown: false, // Hide default header
             }}
@@ -34,6 +35,7 @@ export default function App() {
             {/* Pages */}
             <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen name="Favorites" component={FavoritesScreen} />
+            <RootStack.Screen name="Post" component={Post} />
           </RootStack.Navigator>
           
           {/* Custom header / Nav bar */}
