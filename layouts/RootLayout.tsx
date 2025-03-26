@@ -4,6 +4,7 @@ import Nav from '../components/layouts/Nav';
 
 // Libs
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { loginGuest } from '../lib/auth'
 
 
 interface RootLayoutProps {
@@ -13,6 +14,9 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
 
   const insets = useSafeAreaInsets();
+
+  // Auto auth || skip login system
+  loginGuest()
 
   return (
     <View 
@@ -29,6 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         paddingBottom: 65,
       }}
     >
+
       {children}
     </View>
   );

@@ -56,6 +56,7 @@ export default function CategoryButtons() {
           <Btn
             key={category.id}
             iconSource={{"uri": category.icon}}
+            onPress={() => alert("click")}
           >
             <Text
               className={`
