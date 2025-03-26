@@ -1,17 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function setAccessToken(accessToken: string): Promise<void> {
-  return AsyncStorage.setItem('accessToken', accessToken);
+  return await AsyncStorage.setItem('accessToken', accessToken);
 }
 
 export async function getAccessToken(): Promise<string | null> {
-  return AsyncStorage.getItem('accessToken'); 
+  return await AsyncStorage.getItem('accessToken'); 
 }
 
 export async function setRefreshToken(refreshToken: string): Promise<void> {
-  return AsyncStorage.setItem('refreshToken', refreshToken); 
+  return await AsyncStorage.setItem('refreshToken', refreshToken); 
 }
 
 export async function getRefreshToken(): Promise<string | null> {
-  return AsyncStorage.getItem('refreshToken'); 
+  return await AsyncStorage.getItem('refreshToken'); 
 }

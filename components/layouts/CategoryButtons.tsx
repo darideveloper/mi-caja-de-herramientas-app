@@ -1,73 +1,63 @@
+// Hooks
+import { useState, useEffect } from 'react';
+
+// Components
 import { View } from 'react-native';
 import Btn from '../ui/Btn';
 import Text from '../ui/Text';
+import { ActivityIndicator } from 'react-native';
 
+// Libs
+import { fetchData } from '../../lib/api';
+
+// Add interface for category data
+interface Category {
+  id: number;
+  name: string;
+  icon: string;
+}
 
 export default function CategoryButtons() {
+  // Fix useState type
+  const [categoriesData, setCategoriesData] = useState<Category[]>([]);
 
-  // Dummy data
-  const categoriesData = [
-    {
-      id: 1,
-      name: 'Para balancear energía masculina y femenina',
-      icon: 'https://mi-caja-de-herramientas.s3-accelerate.amazonaws.com/media/icons/icon-a.png',
-    },
-    {
-      id: 4,
-      name: 'Para celebrar/cuando pasa algo bueno',
-      icon: 'https://mi-caja-de-herramientas.s3-accelerate.amazonaws.com/media/icons/icon-d.png',
-    },
-    {
-      id: 6,
-      name: 'Para conectar con los demás/cuando estoy antisocial',
-      icon: 'https://mi-caja-de-herramientas.s3-accelerate.amazonaws.com/media/icons/icon-f.png',
-    },
-    {
-      id: 2,
-      name: 'Para dejar de compararte',
-      icon: 'https://mi-caja-de-herramientas.s3-accelerate.amazonaws.com/media/icons/icon-b.png',
-    },
-    {
-      id: 5,
-      name: 'Para después de hacer ejercicio',
-      icon: 'https://mi-caja-de-herramientas.s3-accelerate.amazonaws.com/media/icons/icon-e.png',
-    },
-    {
-      id: 3,
-      name: 'Para soltar y dejar ir',
-      icon: 'https://mi-caja-de-herramientas.s3-accelerate.amazonaws.com/media/icons/icon-c.png',
-    },
-  ];
+  useEffect(() => {
+    // Update categories data with api data
+    fetchData('groups').then((data) => {
+      const typedData = data as Category[];
+      setCategoriesData(typedData);
+    });
+  }, []);
 
   return (
-    <View 
+    <View
       className={`
-        w-full
-        py-8
         flex
+        min-h-72
+        w-full
         flex-col
         items-center
         justify-center
         gap-4
-      `}
-    >
-      {
+        py-8
+      `}>
+      {categoriesData.length === 0 ? (
+        <ActivityIndicator 
+          size="large"
+          color="#ffffff"
+        />
+      ) : (
         categoriesData.map((category) => (
-          <Btn
-            key={category.id}
-            iconSource={{"uri": category.icon}}
-            onPress={() => alert("click")}
-          >
+          <Btn key={category.id} iconSource={{ uri: category.icon }} onPress={() => alert('click')}>
             <Text
               className={`
-                w-11/12
-              `}
-            >
+                    w-11/12
+                  `}>
               {category.name}
             </Text>
           </Btn>
         ))
-      }
+      )}
     </View>
-  )
+  );
 }
