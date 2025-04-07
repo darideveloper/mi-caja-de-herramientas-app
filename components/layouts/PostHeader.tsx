@@ -95,6 +95,7 @@ export default function PostHeader() {
           !h-14
           rounded-full
           bg-transparent
+          p-0
         `}
         iconSource={isfav ? require('../../assets/icons/fav-active.png') : require('../../assets/icons/fav-no-active.png')}
         onPress={() => setIsFav(!isfav)}
