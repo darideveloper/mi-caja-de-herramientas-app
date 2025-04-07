@@ -11,6 +11,7 @@ interface BtnProps {
   children?: React.ReactNode;
   onPress: () => void;
   disabled?: boolean;
+  classNameIcon?: string;
 }
 
 export default function Btn({
@@ -20,8 +21,11 @@ export default function Btn({
   children,
   onPress = () => {},
   disabled = false,
+  classNameIcon = '',
 }: BtnProps) {
   const [isHover, setIsHover] = useState(false);
+
+  console.log({ iconSource });
 
   if (variant === 'light') {
     className += ' bg-white';
@@ -45,8 +49,7 @@ export default function Btn({
         ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
         ${disabled ? 'opacity-50' : 'opacity-100'}
       `}
-      disabled={disabled}
-    >
+      disabled={disabled}>
       <View
         className={`
           flex
@@ -63,6 +66,7 @@ export default function Btn({
             className={`
               h-10
               w-10
+              ${classNameIcon}
             `}
           />
         )}

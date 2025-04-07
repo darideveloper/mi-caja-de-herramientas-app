@@ -1,5 +1,5 @@
 // Hooks
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // Components
 import { View, Image } from 'react-native';
