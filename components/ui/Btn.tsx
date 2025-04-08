@@ -7,7 +7,7 @@ import { useState } from 'react';
 interface BtnProps {
   iconSource?: any;
   className?: string;
-  variant?: 'light' | 'dark';
+  variant?: 'light' | 'dark' | 'purple';
   children?: React.ReactNode;
   onPress: () => void;
   disabled?: boolean;
@@ -27,11 +27,13 @@ export default function Btn({
 
   console.log({ iconSource });
 
-  if (variant === 'light') {
-    className += ' bg-white';
-  } else {
-    className += ' bg-purpleDark';
+  const variants = {
+    light: ' bg-white text-black',
+    dark: ' bg-purpleDark text-white',
+    purple: ' bg-purple text-white',
   }
+
+  className += variants[variant];
 
   return (
     <Pressable

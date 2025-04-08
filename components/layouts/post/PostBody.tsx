@@ -3,6 +3,7 @@ import { View, Image } from 'react-native';
 import Title from '../../ui/Title';
 import Text from '../../ui/Text';
 import Btn from '../../ui/Btn';
+import Audio from '../../ui/Audio';
 
 type linkType = {
   id: number;
@@ -77,7 +78,6 @@ export default function PostBody() {
           </Text>
         </View>
       }
-
         
       {/* Links */}
       {
@@ -127,6 +127,7 @@ export default function PostBody() {
           h-96
           w-full
           mt-12
+          -mb-24
           bg-white
         `}
       >
@@ -141,6 +142,9 @@ export default function PostBody() {
           resizeMode="cover"
         />
       </View>
+
+      {/* Audio player */}
+      <Audio />
     </View>
   );
 }
