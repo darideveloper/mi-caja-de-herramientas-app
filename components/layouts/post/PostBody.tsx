@@ -31,7 +31,7 @@ export default function PostBody() {
   ];
 
   // Media links
-  const imageLink = 'https://mi-caja-de-herramientas.s3-accelerate.amazonaws.com/media/images/WhatsApp_Image_2025-03-24_at_12.25.59_PM_-_Copy.jpeg';
+  const imageLink = 'https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s';
   const audioLink =
     'https://filebrowser.apps.darideveloper.com/api/public/dl/AmO1UWL8/file_example_MP3_5MG.mp3';
   const videoLink =
@@ -43,6 +43,7 @@ export default function PostBody() {
         body
         -z-10
         -mt-12
+        mb-96
         pt-24
         h-96
         bg-white
@@ -117,6 +118,29 @@ export default function PostBody() {
           }
         </View>
       }
+
+      {/* Image */}
+      <View
+        className={`
+          img-wrapper
+          debug
+          h-96
+          w-full
+          mt-12
+          bg-white
+        `}
+      >
+        <Image
+          source={{
+            uri: imageLink,
+          }}
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+          resizeMode="cover"
+        />
+      </View>
     </View>
   );
 }

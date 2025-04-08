@@ -21,7 +21,7 @@ export default function PostHeader() {
   return (
     <View
       className={`
-        pt-28
+        pt-24
         pb-24
         w-full
         inline-block
