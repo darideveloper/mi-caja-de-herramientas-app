@@ -1,9 +1,9 @@
 // Components
 import { View, Image } from 'react-native';
-import Title from '../../ui/Title';
 import Text from '../../ui/Text';
 import Btn from '../../ui/Btn';
 import Audio from '../../ui/Audio';
+import Video from '../../ui/Video';
 
 type linkType = {
   id: number;
@@ -35,8 +35,8 @@ export default function PostBody() {
     'https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s';
   const audioLink =
     'https://filebrowser.apps.darideveloper.com/api/public/dl/q8VWevGc/ftf/mi-caja-de-herramientas/Hello.mp3';
-  const videoLink =
-    'https://filebrowser.apps.darideveloper.com/api/public/dl/XnqqyRiO/test/test.wav';
+  const videoLink = 
+    'https://filebrowser.apps.darideveloper.com/api/public/dl/YIGE1mnv/ftf/mi-caja-de-herramientas/file_example_MP4_480_1_5MG.mp4';
 
   return (
     <View
@@ -44,8 +44,7 @@ export default function PostBody() {
         body
         -z-10
         -mt-12
-        mb-96
-        h-96
+        mb-12
         bg-white
         pt-24
     `}>
@@ -114,7 +113,7 @@ export default function PostBody() {
         className={`
           img-wrapper
           debug
-          -mb-24
+          ${videoLink ? '-mb-52': '-mb-28'}
           mt-12
           h-96
           w-full
@@ -133,7 +132,12 @@ export default function PostBody() {
       </View>
 
       {/* Audio player */}
-      <Audio audioSrc={audioLink} />
+      {audioLink && <Audio audioSrc={audioLink} />}
+
+      {/* Video player */}
+      {videoLink && (
+        <Video src={videoLink} autoPlay={false} className={`mx-auto !mt-16 !w-11/12`} />
+      )}
     </View>
   );
 }
