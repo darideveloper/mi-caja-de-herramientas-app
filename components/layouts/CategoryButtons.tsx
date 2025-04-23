@@ -42,10 +42,7 @@ export default function CategoryButtons() {
         py-8
       `}>
       {categoriesData.length === 0 ? (
-        <ActivityIndicator 
-          size="large"
-          color="#ffffff"
-        />
+        <ActivityIndicator size="large" color="#ffffff" />
       ) : (
         categoriesData.map((category) => (
           <Btn key={category.id} iconSource={{ uri: category.icon }} onPress={() => alert('click')}>

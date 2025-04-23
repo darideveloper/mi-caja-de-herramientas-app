@@ -26,9 +26,7 @@ export default function Audio({ audioSrc }: { audioSrc: string }) {
   // Pause audio when the page loses focus
   useFocusEffect(
     useCallback(() => {
-      console.log('Audio screen focused');
       return () => {
-        console.log('Audio screen unfocused');
         if (isPlaying) {
           sound?.replayAsync();
           sound?.pauseAsync();

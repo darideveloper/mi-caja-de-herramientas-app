@@ -25,8 +25,6 @@ export default function Btn({
 }: BtnProps) {
   const [isHover, setIsHover] = useState(false);
 
-  console.log({ iconSource });
-
   const variants = {
     light: ' bg-white text-black',
     dark: ' bg-purpleDark text-white',

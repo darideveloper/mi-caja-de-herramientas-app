@@ -35,9 +35,7 @@ export default function Video({
   // Pause video when the screen loses focus
   useFocusEffect(
     useCallback(() => {
-      console.log('Video screen focused');
       return () => {
-        console.log('Video screen unfocused');
         if (isPlaying) {
           player.pause(); // Pause the video
           setIsPlaying(false); // Update the state

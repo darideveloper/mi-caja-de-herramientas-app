@@ -1,7 +1,8 @@
 // Components
 import Title from './Title';
-import { Pressable, Image, FlatList } from 'react-native';
+import { Pressable, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { ActivityIndicator } from 'react-native';
 
 // Icons
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -13,8 +14,17 @@ import glow from '../../assets/imgs/glow.png';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Cta({}) {
-
+export default function Cta({
+  text,
+  navScreen,
+  navData,
+  isLoading,
+}: {
+  text: string;
+  navScreen: string;
+  navData: any;
+  isLoading: boolean;
+}) {
   // States
   const [isHover, setIsHover] = useState(false);
 
@@ -23,7 +33,7 @@ export default function Cta({}) {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('Favorites') }
+      onPress={() => navigation.navigate(navScreen, navData)}
       className={`
         duration-600
         w-10/12
@@ -33,35 +43,37 @@ export default function Cta({}) {
         ${isHover ? 'scale-110' : 'scale-100'}
       `}
       onPressIn={() => setIsHover(true)}
-      onPressOut={() => setIsHover(false)}
-    >
-
+      onPressOut={() => setIsHover(false)}>
       <LinearGradient
         colors={['#9B85AC', '#3A2647BB']}
         start={[0, 0]}
         end={[1, 0]}
         className={`
+          duration-600
           relative
-          w-full
           flex
+          w-full
           flex-row
           items-center
           justify-center
-          transition
-          duration-600
           py-4
+          transition
           ${isHover ? 'opacity-75' : 'opacity-100'}
         `}>
 
-        <Title
-          className={`
-            w-full
-            text-center
-            !my-0
-            mr-5
-          `}>
-          Sorpréndeme
-        </Title>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#ffffff" />
+        ) : (
+          <Title
+            className={`
+              !my-0
+              mr-5
+              w-full
+              text-center
+            `}>
+            {text}
+          </Title>
+        )}
 
         <Image
           source={glow}
@@ -85,9 +97,7 @@ export default function Cta({}) {
             mr-8
           `}
         />
-
       </LinearGradient>
-      
     </Pressable>
   );
 }
