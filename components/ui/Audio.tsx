@@ -4,8 +4,12 @@ import { Audio as ExpoAudio } from 'expo-av';
 import Btn from './Btn';
 import Text from './Text';
 
+// Hooks
+import { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+
+
 export default function Audio() {
-  
   // Static data
   const texts = {
     ready: 'Empezar a practicar',
@@ -17,26 +21,41 @@ export default function Audio() {
   // Component state
   const [sound, setSound] = useState<ExpoAudio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [text, setText] = useState(texts["ready"])
-  const [alreadyPlayed, setAlreadyPlayed] = useState(false)
+  const [text, setText] = useState(texts['ready']);
+  const [alreadyPlayed, setAlreadyPlayed] = useState(false);
 
+  // Pause audio when the page loses focus
+  useFocusEffect(
+    useCallback(() => {
+      console.log('Audio screen focused');
+      return () => {
+        console.log('Audio screen unfocused');
+        if (isPlaying) {
+          sound?.replayAsync();
+          sound?.pauseAsync();
+          setIsPlaying(false);
+          setText(texts['paused']);
+        }
+      };
+    }, [isPlaying, sound])
+  );
 
   // Manage audio play and pause status
   useEffect(() => {
     if (isPlaying) {
       // Play and update text
       sound?.playAsync();
-      setText(texts["playing"])
+      setText(texts['playing']);
 
       // Set already played to true
       if (!alreadyPlayed) {
-        setAlreadyPlayed(true)
+        setAlreadyPlayed(true);
       }
     } else {
       // Pause and update text
       sound?.pauseAsync();
       if (alreadyPlayed) {
-        setText(texts["paused"])
+        setText(texts['paused']);
       }
     }
   }, [isPlaying]);
@@ -50,12 +69,12 @@ export default function Audio() {
           sound.replayAsync();
 
           // Pause audio
-          sound.pauseAsync()
-          setIsPlaying(false)
+          sound.pauseAsync();
+          setIsPlaying(false);
 
           // Update text
           setTimeout(() => {
-            setText(texts["ended"])
+            setText(texts['ended']);
           }, 50);
         }
       });
@@ -83,6 +102,15 @@ export default function Audio() {
 
     loadSound();
   }, []);
+
+  // Unload sound when component unmounts
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   return (
     <View
