@@ -1,6 +1,8 @@
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { View, Pressable, Animated } from 'react-native';
 import { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 interface VideoProps {
   src?: string;
@@ -20,7 +22,7 @@ export default function Video({
 
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [overlayHidden, setOverlayHidden] = useState(false);
-  const fadeAnim = useState(new Animated.Value(1))[0]; // Initial opacity is 1
+  const fadeAnim = useState(new Animated.Value(1))[0];
 
   // Create and setup player
   const player = useVideoPlayer(src, (player) => {
@@ -29,6 +31,20 @@ export default function Video({
       player.play();
     }
   });
+
+  // Pause video when the screen loses focus
+  useFocusEffect(
+    useCallback(() => {
+      console.log('Video screen focused');
+      return () => {
+        console.log('Video screen unfocused');
+        if (isPlaying) {
+          player.pause(); // Pause the video
+          setIsPlaying(false); // Update the state
+        }
+      };
+    }, [isPlaying, player])
+  );
 
   useEffect(() => {
     if (isPlaying) {
