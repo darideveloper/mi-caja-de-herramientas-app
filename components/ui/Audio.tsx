@@ -5,27 +5,39 @@ import Btn from './Btn';
 import Text from './Text';
 
 export default function Audio() {
-  const [sound, setSound] = useState<ExpoAudio.Sound | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playedOnce, setPlayedOnce] = useState(false);
-
+  
+  // Static data
   const texts = {
     ready: 'Empezar a practicar',
     playing: 'En práctica',
     paused: 'Continua practicando',
+    ended: 'Practica de nuevo',
   };
 
-  // Play and pause sound when button is pressed
+  // Component state
+  const [sound, setSound] = useState<ExpoAudio.Sound | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [text, setText] = useState(texts["ready"])
+  const [alreadyPlayed, setAlreadyPlayed] = useState(false)
+
+
+  // Manage audio play and pause status
   useEffect(() => {
     if (isPlaying) {
+      // Play and update text
       sound?.playAsync();
+      setText(texts["playing"])
 
-      // Update text when sound is played for the first time
-      if (!playedOnce) {
-        setPlayedOnce(true);
+      // Set already played to true
+      if (!alreadyPlayed) {
+        setAlreadyPlayed(true)
       }
     } else {
+      // Pause and update text
       sound?.pauseAsync();
+      if (alreadyPlayed) {
+        setText(texts["paused"])
+      }
     }
   }, [isPlaying]);
 
@@ -36,6 +48,15 @@ export default function Audio() {
         if (status.isLoaded && status.didJustFinish) {
           // Restart the audio
           sound.replayAsync();
+
+          // Pause audio
+          sound.pauseAsync()
+          setIsPlaying(false)
+
+          // Update text
+          setTimeout(() => {
+            setText(texts["ended"])
+          }, 50);
         }
       });
     }
@@ -54,7 +75,7 @@ export default function Audio() {
   useEffect(() => {
     const loadSound = async () => {
       const { sound: loadedSound } = await ExpoAudio.Sound.createAsync(
-        { uri: 'https://examplefiles.org/files/audio/mp3-example-file-download-1min.mp3' },
+        { uri: 'https://download.samplelib.com/mp3/sample-3s.mp3' },
         { shouldPlay: false, isLooping: false }
       );
       setSound(loadedSound);
@@ -116,7 +137,7 @@ export default function Audio() {
             font-bold
             text-white
           `}>
-          {isPlaying ? texts.playing : playedOnce ? texts.paused : texts.ready}
+          {text}
         </Text>
       </View>
     </View>
