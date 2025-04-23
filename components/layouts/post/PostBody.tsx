@@ -12,7 +12,6 @@ type linkType = {
   url: string;
 };
 
-
 export default function PostBody() {
   // Dummy data
   const text: string = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, esseLorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, esseLorem ipsum dolor sit amet consectetur adipisicing elit. Molestias`;
@@ -32,9 +31,10 @@ export default function PostBody() {
   ];
 
   // Media links
-  const imageLink = 'https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s';
+  const imageLink =
+    'https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s';
   const audioLink =
-    'https://filebrowser.apps.darideveloper.com/api/public/dl/AmO1UWL8/file_example_MP3_5MG.mp3';
+    'https://filebrowser.apps.darideveloper.com/api/public/dl/q8VWevGc/ftf/mi-caja-de-herramientas/Hello.mp3';
   const videoLink =
     'https://filebrowser.apps.darideveloper.com/api/public/dl/XnqqyRiO/test/test.wav';
 
@@ -45,92 +45,81 @@ export default function PostBody() {
         -z-10
         -mt-12
         mb-96
-        pt-24
         h-96
         bg-white
+        pt-24
     `}>
-
       {/* Text */}
-      {
-        text
-        &&
+      {text && (
         <View
           className={`
             text-wrapper
-            w-10/12
             mx-auto
-            shadow-md
-            shadow-purpleDark
+            w-10/12
             rounded-3xl
             bg-white
             px-6
             py-4
-          `}
-        >
+            shadow-md
+            shadow-purpleDark
+          `}>
           <Text
             className={`
+              text-center
               text-xl
               text-black
-              text-center
-            `}
-          >
+            `}>
             {text}
           </Text>
         </View>
-      }
-        
+      )}
+
       {/* Links */}
-      {
-        links.length > 0
-        &&
+      {links.length > 0 && (
         <View
           className={`
             links-wrapper
-            w-10/12
             mx-auto
+            mt-6
+            w-10/12
             flex-row
             justify-center
             gap-6
-            mt-6
-          `}
-        >
-          {
-            links.map((link: linkType) => (
-              <Btn 
-                key={link.id}
-                iconSource={{
-                  uri: link.icon,
-                }}
-                onPress={() => {
-                  alert(link.url);
-                }}
-                className={`
+          `}>
+          {links.map((link: linkType) => (
+            <Btn
+              key={link.id}
+              iconSource={{
+                uri: link.icon,
+              }}
+              onPress={() => {
+                alert(link.url);
+              }}
+              className={`
                   link
+                  h-14
+                  w-14
+                `}
+              classNameIcon={`
                   w-14
                   h-14
                 `}
-                classNameIcon={`
-                  w-14
-                  h-14
-                `}
-              />  
-            ))
-          }
+            />
+          ))}
         </View>
-      }
+      )}
 
       {/* Image */}
       <View
         className={`
           img-wrapper
           debug
+          -mb-24
+          mt-12
           h-96
           w-full
-          mt-12
-          -mb-24
           bg-white
-        `}
-      >
+        `}>
         <Image
           source={{
             uri: imageLink,
@@ -144,7 +133,7 @@ export default function PostBody() {
       </View>
 
       {/* Audio player */}
-      <Audio />
+      <Audio audioSrc={audioLink} />
     </View>
   );
 }

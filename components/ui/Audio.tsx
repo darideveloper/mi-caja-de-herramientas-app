@@ -8,8 +8,7 @@ import Text from './Text';
 import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
-
-export default function Audio() {
+export default function Audio({ audioSrc }: { audioSrc: string }) {
   // Static data
   const texts = {
     ready: 'Empezar a practicar',
@@ -94,14 +93,14 @@ export default function Audio() {
   useEffect(() => {
     const loadSound = async () => {
       const { sound: loadedSound } = await ExpoAudio.Sound.createAsync(
-        { uri: 'https://download.samplelib.com/mp3/sample-3s.mp3' },
+        { uri: audioSrc },
         { shouldPlay: false, isLooping: false }
       );
       setSound(loadedSound);
     };
 
     loadSound();
-  }, []);
+  }, [audioSrc]);
 
   // Unload sound when component unmounts
   useEffect(() => {
