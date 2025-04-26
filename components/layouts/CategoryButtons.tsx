@@ -9,6 +9,7 @@ import { ActivityIndicator } from 'react-native';
 
 // Libs
 import { fetchData } from '../../lib/api';
+import { getCategories, setCategories } from '../../store/categories'; // Import category storage functions
 
 // Add interface for category data
 interface Category {
@@ -20,13 +21,31 @@ interface Category {
 export default function CategoryButtons() {
   // Fix useState type
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Update categories data with api data
-    fetchData('groups').then((data) => {
-      const typedData = data as Category[];
-      setCategoriesData(typedData);
-    });
+    const loadCategories = async () => {
+      try {
+        // Try to get categories from AsyncStorage
+        const storedCategories = await getCategories();
+        if (storedCategories) {
+          setCategoriesData(storedCategories);
+          setIsLoading(false);
+        } else {
+          // Fetch categories from API if not in AsyncStorage
+          const data = await fetchData('groups');
+          const typedData = data as Category[];
+          setCategoriesData(typedData);
+          await setCategories(typedData); // Save categories to AsyncStorage
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        setIsLoading(false);
+      }
+    };
+
+    loadCategories();
   }, []);
 
   return (
@@ -41,7 +60,7 @@ export default function CategoryButtons() {
         gap-4
         py-8
       `}>
-      {categoriesData.length === 0 ? (
+      {isLoading ? (
         <ActivityIndicator size="large" color="#ffffff" />
       ) : (
         categoriesData.map((category) => (

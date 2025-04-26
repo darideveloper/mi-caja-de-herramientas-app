@@ -59,7 +59,7 @@ export default function PostScreen() {
           debug
           w-full
         `}>
-        {!postData ? (
+        {(id && !postData) ? (
           <View
             className={`
               flex
