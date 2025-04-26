@@ -7,11 +7,7 @@ import Cta from '../ui/Cta';
 // Hooks
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
-import { useCallback } from 'react';
 
-// Libs
-import { fetchData } from '../../lib/api';
 
 export default function Hero() {
 
@@ -27,21 +23,6 @@ export default function Hero() {
     }
     checkUser();
   }, []);
-
-  // Refresh randomPostId each time the page gains focus
-  useFocusEffect(
-    useCallback(() => {
-      fetchData('random-post')
-        .then((data: any) => {
-          if (Array.isArray(data) && data.length > 0) {
-            setRandomPostId(data[0].id);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching random post:', error);
-        });
-    }, [])
-  );
 
   return (
     <View
@@ -67,9 +48,6 @@ export default function Hero() {
 
       <Cta 
         text={'Sorpréndeme'}
-        navScreen={'Post'}
-        navData={{ id: randomPostId }}
-        isLoading={randomPostId ? false : true}
       />
     </View>
   );

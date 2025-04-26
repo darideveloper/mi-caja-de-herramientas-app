@@ -14,26 +14,41 @@ import glow from '../../assets/imgs/glow.png';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import { fetchData } from '../../lib/api';
+
 export default function Cta({
   text,
-  navScreen,
-  navData,
-  isLoading,
 }: {
   text: string;
-  navScreen: string;
-  navData: any;
-  isLoading: boolean;
 }) {
   // States
   const [isHover, setIsHover] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navScreen = 'Post'; // Define the screen to navigate to
 
   // Navigation
   const navigation = useNavigation<any>();
 
+  // Refresh randomPostId each time the page gains focus
+  function handleClick() {
+    fetchData('random-post')
+      .then((data: any) => {
+        console.log({data})
+        if (Array.isArray(data) && data.length > 0) {
+          navigation.navigate(navScreen, {id: data[0].id});
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching random post:', error);
+      });
+  }
+
   return (
     <Pressable
-      onPress={() => navigation.navigate(navScreen, navData)}
+      onPress={() => {
+        setIsLoading(true);
+        handleClick();
+      }}
       className={`
         duration-600
         w-10/12
@@ -66,7 +81,7 @@ export default function Cta({
         ) : (
           <Title
             className={`
-              !my-0
+              !my-2
               mr-5
               w-full
               text-center
