@@ -7,80 +7,77 @@ import Title from '../../ui/Title';
 import Text from '../../ui/Text';
 import Btn from '../../ui/Btn';
 
-export default function PostHeader() {
+interface PostHeaderProps {
+  postTitle: string;
+  postUnderline: string;
+  durationMin: number;
+}
 
-  // Dummy data
-  const postTitle = 'Título 1 del post de ejemplo';
-  const postUnderline = "Para dejar de compararte"
-  const durationMin = 5
-
+export default function PostHeader({ postTitle, postUnderline, durationMin }: PostHeaderProps) {
+  
   // States
   const [isfav, setIsFav] = useState<boolean>(false);
-
 
   return (
     <View
       className={`
-        pt-24
-        pb-24
-        w-full
+        relative
         inline-block
+        w-full
+        overflow-hidden
         rounded-b-3xl
         bg-purple
-        relative
-        overflow-hidden
-      `}
-    >
+        pb-24
+        pt-24
+      `}>
       <Image
         source={require('../../../assets/imgs/glow-large.png')}
         className={`
           absolute
-          top-0
           left-0
-          w-full
+          top-0
           h-96
+          w-full
         `}
       />
 
       <Title
         className={`
-          title
+          mb-4
           inline-block
+          text-center
           text-4xl
           font-bold
-          mb-4
-          text-center
+          capitalize
         `}>
-        {postTitle}
+        {postUnderline}
       </Title>
 
       <Text
         className={`
-          underline
           text-center
-          text-white
           text-xl
-        `}
-      >
-        {postUnderline}
+          text-white
+          underline
+          capitalize
+        `}>
+        {postTitle}
       </Text>
 
       <Text
         className={`
           duration
-          text-center
-          text-white
-          text-xl
           absolute
           bottom-10
           left-10
-        `}
-      > 
+          text-center
+          text-xl
+          text-white
+        `}>
         <Text
           className={`
             font-bold
-          `}
-        >
+          `}>
           {durationMin}&nbsp;
         </Text>
         min
@@ -91,13 +88,17 @@ export default function PostHeader() {
           absolute
           bottom-5
           right-10
-          !w-14
           !h-14
+          !w-14
           rounded-full
           !bg-transparent
           p-0
         `}
-        iconSource={isfav ? require('../../../assets/icons/fav-active.png') : require('../../../assets/icons/fav-no-active.png')}
+        iconSource={
+          isfav
+            ? require('../../../assets/icons/fav-active.png')
+            : require('../../../assets/icons/fav-no-active.png')
+        }
         onPress={() => setIsFav(!isfav)}
       />
     </View>

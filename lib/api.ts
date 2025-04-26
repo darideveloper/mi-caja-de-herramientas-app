@@ -20,8 +20,14 @@ export async function fetchData(endpoint: string): Promise<object[]> {
 
     const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE}/${endpoint}/`, requestOptions);
     const jsonData = await response.json();
-    const results = jsonData.results;
-    console.log('API response:', jsonData);
+
+    // Get resuluts only if is required
+    let results = [];
+    if (jsonData.results != undefined) {
+      results = jsonData.results;
+    } else {
+      results = jsonData;
+    }
     return results
   } catch (error) {
     console.error('Error fetching data:', error);
