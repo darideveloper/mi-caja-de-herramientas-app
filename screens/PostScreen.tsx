@@ -41,6 +41,10 @@ export default function PostScreen() {
 
   // Get post data when the component mounts
   useEffect(() => {
+    // Validate id
+    if (!id) return;
+
+    // get post data
     fetchData(`posts/${id}`).then((data: any) => {
       const typedData = data as PostData;
       console.log('Post data:', typedData);
@@ -59,7 +63,7 @@ export default function PostScreen() {
           debug
           w-full
         `}>
-        {(id && !postData) ? (
+        {(!postData) ? (
           <View
             className={`
               flex
