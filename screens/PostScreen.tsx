@@ -14,6 +14,8 @@ import { View } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { fetchData } from '../lib/api';
+
+// Types
 import { PostDataType } from '../types/post';
 
 // Define the route params type

@@ -4,46 +4,22 @@ import Title from '../ui/Title';
 import Btn from 'components/ui/Btn';
 import Text from 'components/ui/Text';
 
+// Types
+import { PostSummaryType } from '../../types/post';
 
-export default function RecentPosts() {
+
+interface PostListProps {
+  postsData: PostSummaryType[];
+}
+
+export default function PostList({ postsData }: PostListProps) {
+
+  // Icons
   const icons: { [key in 'video' | 'social' | 'audio']: any } = {
     video: require('../../assets/icons/video.png'),
     social: require('../../assets/icons/social.png'),
     audio: require('../../assets/icons/audio.png'),
   };
-
-  const postData: { id: number; title: string; post_type: 'video' | 'social' | 'audio' }[] = [
-    {
-      id: 4,
-      title: 'test 1',
-      post_type: 'video',
-    },
-    {
-      id: 5,
-      title: 'test 2',
-      post_type: 'social',
-    },
-    {
-      id: 6,
-      title: 'test 1',
-      post_type: 'audio',
-    },
-    {
-      id: 7,
-      title: 'test 2',
-      post_type: 'video',
-    },
-    {
-      id: 8,
-      title: 'test 1',
-      post_type: 'social',
-    },
-    {
-      id: 9,
-      title: 'test 2',
-      post_type: 'audio',
-    },
-  ];
 
   return (
     <View
@@ -74,7 +50,7 @@ export default function RecentPosts() {
           gap-4
         `}
       >
-        {postData.map((post) => (
+        {postsData.map((post) => (
           <Btn 
             key={post.id}
             iconSource={icons[post.post_type]}

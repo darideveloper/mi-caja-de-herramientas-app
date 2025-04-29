@@ -4,11 +4,48 @@ import RootLayout from 'layouts/RootLayout';
 // Sections
 import Hero from '../components/layouts/Hero';
 import CategoryButtons from '../components/layouts/CategoryButtons';
-import RecentPosts from '../components/layouts/RecentPosts';
+import PostsList from '../components/layouts/PostsList';
 
 // Components
 import { ScrollView } from 'react-native';
 
+// Types
+import { PostSummaryType } from '../types/post';
+
+// Dummy data
+
+const recentPosts: PostSummaryType[] = [
+  {
+    id: 4,
+    title: 'test 1',
+    post_type: 'video',
+  },
+  {
+    id: 5,
+    title: 'test 2',
+    post_type: 'social',
+  },
+  {
+    id: 6,
+    title: 'test 1',
+    post_type: 'audio',
+  },
+  {
+    id: 7,
+    title: 'test 2',
+    post_type: 'video',
+  },
+  {
+    id: 8,
+    title: 'test 1',
+    post_type: 'social',
+  },
+  {
+    id: 9,
+    title: 'test 2',
+    post_type: 'audio',
+  },
+];
 
 export default function Home() {
   return (
@@ -16,7 +53,7 @@ export default function Home() {
       <ScrollView>
         <Hero />
         <CategoryButtons />
-        <RecentPosts />
+        <PostsList postsData={recentPosts}/>
       </ScrollView>
     </RootLayout>
   );

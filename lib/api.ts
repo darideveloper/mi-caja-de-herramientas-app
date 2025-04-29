@@ -7,7 +7,7 @@ import { getAccessToken } from 'store/tokens';
  * @param {string} endpoint - The API endpoint to fetch data from
  * @returns {Promise<void>} Nothing
  */
-export async function fetchData(endpoint: string): Promise<object[]> {
+export async function fetchData(endpoint: string, backstask: boolean = true): Promise<object[]> {
   try {
     const myHeaders = new Headers();
     const accessToken = await getAccessToken()
@@ -18,7 +18,12 @@ export async function fetchData(endpoint: string): Promise<object[]> {
       headers: myHeaders,
     };
 
-    const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE}/${endpoint}/`, requestOptions);
+    let fullEndpoint = `${process.env.EXPO_PUBLIC_API_BASE}/${endpoint}`;
+    if (backstask) {
+      fullEndpoint += '\\'
+    }
+    const response = await fetch(fullEndpoint, requestOptions);
+    console.log({response})
     const jsonData = await response.json();
 
     // Get resuluts only if is required
@@ -28,7 +33,7 @@ export async function fetchData(endpoint: string): Promise<object[]> {
     } else {
       results = jsonData;
     }
-    // console.log({endpoint, results})
+    console.log({endpoint, results})
     return results
   } catch (error) {
     console.error('Error fetching data:', error);

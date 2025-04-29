@@ -15,6 +15,7 @@ export type PostCategoryType = {
 
 
 export type PostDataType = {
+    id: number;
     duration: number;
     links: PostLinkType[];
     group: PostGroupType;
@@ -24,4 +25,10 @@ export type PostDataType = {
     image: string;
     audio_link: string;
     video_link: string;
+}
+
+export type PostSummaryType = {
+    id: number;
+    title: string;
+    post_type: 'video' | 'social' | 'audio';
 }

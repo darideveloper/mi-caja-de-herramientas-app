@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 import PostScreen from './screens/PostScreen';
+import ResultsScreen from 'screens/ResultsScreen';
 
 // Components
 import Nav from './components/layouts/Nav';
@@ -27,7 +28,7 @@ export default function App() {
         {/* Page conteiner*/}
         <View style={{ flex: 1 }}>
           <RootStack.Navigator
-            initialRouteName="Home"
+            initialRouteName="Results"
             screenOptions={{
               headerShown: false, // Hide default header
             }}
@@ -36,6 +37,7 @@ export default function App() {
             <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen name="Favorites" component={FavoritesScreen} />
             <RootStack.Screen name="Post" component={PostScreen} />
+            <RootStack.Screen name="Results" component={ResultsScreen} />
           </RootStack.Navigator>
           
           {/* Custom header / Nav bar */}
