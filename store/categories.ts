@@ -9,6 +9,24 @@ interface Category {
 
 // Save categories to AsyncStorage
 export async function setCategories(categories: Category[]): Promise<void> {
+
+  // Validtse json content before save
+  const contentLength = categories.length;
+  if (contentLength === 0) {
+    console.error('Error: Categories array is empty.');
+    return;
+  }
+
+  // Validate keys before save
+  const keys = Object.keys(categories[0]);
+  const expectedKeys = ['id', 'name', 'icon'];
+  const isValid = expectedKeys.every((key) => keys.includes(key));
+  if (!isValid) {
+    console.error('Error: Categories array contains invalid keys.');
+    return;
+  }
+
+
   const categoriesString = JSON.stringify(categories);
   await AsyncStorage.setItem('categories', categoriesString);
 }

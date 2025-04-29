@@ -30,10 +30,16 @@ type RouteParams = {
 
 export default function ResultsScreen() {
   const route = useRoute<RouteProp<RouteParams, 'params'>>();
-  const { categoryId="", groupId="", durationMin="", title="Resultados de Búsqueda" } = route.params || {};
+  const {
+    categoryId = '',
+    groupId = '',
+    durationMin = '',
+    title = 'Resultados de Búsqueda',
+  } = route.params || {};
 
   // States
   const [posts, setPosts] = useState<PostSummaryType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Get post data when the component mounts
   useEffect(() => {
@@ -42,6 +48,9 @@ export default function ResultsScreen() {
     fetchData(endpoint, false).then((data: any) => {
       const typedData = data as PostSummaryType[];
       setPosts(typedData);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     });
   }, []);
 
@@ -52,7 +61,7 @@ export default function ResultsScreen() {
             debug
             w-full
           `}>
-        {!posts.length ? (
+        {isLoading ? (
           <View
             className={`
                 flex
@@ -62,10 +71,10 @@ export default function ResultsScreen() {
               `}>
             <ActivityIndicator size="large" color="#ffffff" />
           </View>
-        ) : (
+        ): (
           <>
-            <ResultsHeader title={title} />
-            <PostsList postsData={posts}/>
+            <ResultsHeader title={posts.length == 0 ? "No se encontraron resultados" : title} />
+            <PostsList postsData={posts} className={`min-h-[80vh]`} />
           </>
         )}
       </ScrollView>
