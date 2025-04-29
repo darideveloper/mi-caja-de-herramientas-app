@@ -7,6 +7,8 @@ import Text from 'components/ui/Text';
 // Types
 import { PostSummaryType } from '../../types/post';
 
+// Libs
+import { useNavigation } from '@react-navigation/native';
 
 interface PostListProps {
   postsData: PostSummaryType[];
@@ -22,6 +24,9 @@ export default function PostList({ postsData, title="", className }: PostListPro
     social: require('../../assets/icons/social.png'),
     audio: require('../../assets/icons/audio.png'),
   };
+
+  // Navigation
+  const navigation = useNavigation<any>();
 
   return (
     <View
@@ -62,7 +67,9 @@ export default function PostList({ postsData, title="", className }: PostListPro
             className={`
               w-full
             `}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("Post", {id: post.id});
+            }}
           >
             <Text
               className={`
