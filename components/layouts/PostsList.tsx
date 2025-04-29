@@ -10,9 +10,11 @@ import { PostSummaryType } from '../../types/post';
 
 interface PostListProps {
   postsData: PostSummaryType[];
+  title?: string;
+  className?: string;
 }
 
-export default function PostList({ postsData }: PostListProps) {
+export default function PostList({ postsData, title="", className }: PostListProps) {
 
   // Icons
   const icons: { [key in 'video' | 'social' | 'audio']: any } = {
@@ -26,20 +28,23 @@ export default function PostList({ postsData }: PostListProps) {
       className={`
         bg-white
         w-full
-        mt-12
         py-6
-        rounded-t-3xl
         px-8
+        ${className}
       `}
     >
-      <Title
-        className={`
-          w-full
-        `}
-        variant="dark"
-      >
-        Recientes
-      </Title>
+
+      {
+        title &&
+        <Title
+          className={`
+            w-full
+          `}
+          variant="dark"
+        >
+          {title}
+        </Title>
+      }
 
       <View
         className={`

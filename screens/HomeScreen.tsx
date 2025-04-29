@@ -53,7 +53,7 @@ export default function Home() {
       <ScrollView>
         <Hero />
         <CategoryButtons />
-        <PostsList postsData={recentPosts}/>
+        <PostsList postsData={recentPosts} className={`mt-12 rounded-t-3xl`} title="Recientes" />
       </ScrollView>
     </RootLayout>
   );

@@ -28,7 +28,7 @@ export default function App() {
         {/* Page conteiner*/}
         <View style={{ flex: 1 }}>
           <RootStack.Navigator
-            initialRouteName="Results"
+            initialRouteName="Home"
             screenOptions={{
               headerShown: false, // Hide default header
             }}

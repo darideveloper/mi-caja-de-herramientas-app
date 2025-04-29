@@ -3,6 +3,7 @@ import RootLayout from 'layouts/RootLayout';
 
 // Sections
 import PostsList from '../components/layouts/PostsList';
+import ResultsHeader from 'components/layouts/ResultsHeader';
 
 // Components
 import { ScrollView } from 'react-native';
@@ -23,12 +24,13 @@ type RouteParams = {
     categoryId?: number | string;
     groupId?: number | string;
     durationMin?: number | string;
+    title?: string;
   };
 };
 
 export default function ResultsScreen() {
   const route = useRoute<RouteProp<RouteParams, 'params'>>();
-  const { categoryId="", groupId="", durationMin="" } = route.params || {};
+  const { categoryId="", groupId="", durationMin="", title="Resultados de Búsqueda" } = route.params || {};
 
   // States
   const [posts, setPosts] = useState<PostSummaryType[]>([]);
@@ -44,7 +46,7 @@ export default function ResultsScreen() {
   }, []);
 
   return (
-    <RootLayout>
+    <RootLayout className={`bg-purpleDark`}>
       <ScrollView
         className={`
             debug
@@ -62,7 +64,8 @@ export default function ResultsScreen() {
           </View>
         ) : (
           <>
-            <PostsList postsData={posts} />
+            <ResultsHeader title={title} />
+            <PostsList postsData={posts}/>
           </>
         )}
       </ScrollView>
