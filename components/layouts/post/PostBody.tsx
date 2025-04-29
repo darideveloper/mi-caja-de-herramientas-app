@@ -7,16 +7,11 @@ import Video from '../../ui/Video';
 
 // Libs
 import { Linking } from 'react-native';
-
-type linkType = {
-  id: number;
-  icon: string;
-  url: string;
-};
+import { PostLinkType } from 'types/post';
 
 interface PostBodyProps {
   text: string;
-  links: linkType[];
+  links: PostLinkType[];
   imageLink?: string;
   audioLink?: string;
   videoLink?: string;
@@ -73,7 +68,7 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
             gap-6
             mb-12
           `}>
-          {links.map((link: linkType) => (
+          {links.map((link: PostLinkType) => (
             <Btn
               key={link.id}
               iconSource={{

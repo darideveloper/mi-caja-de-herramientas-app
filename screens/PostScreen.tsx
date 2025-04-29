@@ -14,6 +14,7 @@ import { View } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { fetchData } from '../lib/api';
+import { PostDataType } from '../types/post';
 
 // Define the route params type
 type RouteParams = {
@@ -22,36 +23,13 @@ type RouteParams = {
   };
 };
 
-// Define the post data type
-interface PostData {
-  duration: number;
-  links: [
-    {
-      id: number;
-      icon: string;
-      url: string;
-    }
-  ],
-  group: {
-    name: string;
-  };
-  category: {
-    name: string;
-  };
-  title: string;
-  text: string;
-  image: string;
-  audio_link: string;
-  video_link: string;
-}
-
 export default function PostScreen() {
   // Screen routing
   const route = useRoute<RouteProp<RouteParams, 'params'>>();
   const { id } = route.params;
 
   // States
-  const [postData, setPostData] = useState<PostData | null>(null);
+  const [postData, setPostData] = useState<PostDataType | null>(null);
 
   // Get post data when the component mounts
   useEffect(() => {
@@ -60,7 +38,7 @@ export default function PostScreen() {
 
     // get post data
     fetchData(`posts/${id}`).then((data: any) => {
-      const typedData = data as PostData;
+      const typedData = data as PostDataType;
       setPostData(typedData);
     });
   }, [id]);
