@@ -10,6 +10,8 @@ import { ActivityIndicator } from 'react-native';
 // Libs
 import { fetchData } from '../../lib/api';
 import { getCategories, setCategories } from '../../store/categories'; // Import category storage functions
+import { useNavigation } from '@react-navigation/native';
+
 
 // Add interface for category data
 interface Category {
@@ -19,16 +21,25 @@ interface Category {
 }
 
 export default function CategoryButtons() {
-  // Fix useState type
+
+  // States
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Navigation
+  const navigation = useNavigation<any>();
+
   useEffect(() => {
+
+    /**
+     * Load categories from AsyncStorage or API
+     */
     const loadCategories = async () => {
       try {
         // Try to get categories from AsyncStorage
         const storedCategories = await getCategories();
         if (storedCategories) {
+          console.log('Categories loaded from AsyncStorage:', storedCategories);
           setCategoriesData(storedCategories);
           setIsLoading(false);
         } else {
@@ -45,8 +56,13 @@ export default function CategoryButtons() {
       }
     };
 
+    // Load categories when the component mounts
     loadCategories();
   }, []);
+
+  useEffect(() => {
+    console.log('Categories data:', categoriesData);
+  }, [categoriesData]);
 
   return (
     <View
@@ -60,11 +76,20 @@ export default function CategoryButtons() {
         gap-4
         py-8
       `}>
-      {isLoading ? (
+      {(isLoading || !categoriesData)? (
         <ActivityIndicator size="large" color="#ffffff" />
       ) : (
         categoriesData.map((category) => (
-          <Btn key={category.id} iconSource={{ uri: category.icon }} onPress={() => alert('click')}>
+          <Btn 
+            key={category.id}
+            iconSource={{ uri: category.icon }} 
+            onPress={() => {
+              navigation.navigate("Results", {
+                categoryId: category.id,
+                title: category.name,
+              });
+            }}
+          >
             <Text
               className={`
                 w-11/12
