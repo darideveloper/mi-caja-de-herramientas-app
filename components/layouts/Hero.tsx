@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 export default function Hero() {
 
   const [autoplay, setAutoplay] = useState(false);
-  const [randomPostId, setRandomPostId] = useState(null);
 
   useEffect(() => {
     async function checkUser() {
