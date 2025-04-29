@@ -5,6 +5,9 @@ import Btn from '../../ui/Btn';
 import Audio from '../../ui/Audio';
 import Video from '../../ui/Video';
 
+// Libs
+import { Linking } from 'react-native';
+
 type linkType = {
   id: number;
   icon: string;
@@ -77,7 +80,11 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
                 uri: link.icon,
               }}
               onPress={() => {
-                alert(link.url);
+                // Open link in external browser
+                const url = link.url;
+                if (url) {
+                  Linking.openURL(url);
+                }
               }}
               className={`
                   link
