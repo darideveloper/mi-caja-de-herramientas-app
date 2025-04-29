@@ -7,36 +7,20 @@ import Video from '../../ui/Video';
 
 type linkType = {
   id: number;
-  name: string;
   icon: string;
   url: string;
 };
 
-export default function PostBody() {
-  // Dummy data
-  const text: string = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, esseLorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, esseLorem ipsum dolor sit amet consectetur adipisicing elit. Molestias`;
-  const links: linkType[] = [
-    {
-      id: 1,
-      name: 'Instagram',
-      icon: 'http://192.168.0.8:8000/media/icons/instagram.png',
-      url: 'https://www.instagram.com/paocarrera.biocoach?igsh=eWtvbHNsM3FwZW1z',
-    },
-    {
-      id: 2,
-      name: 'Youtube',
-      icon: 'http://192.168.0.8:8000/media/icons/youtube.png',
-      url: 'https://youtube.com/@paocarrera.biocoach?si=TCHx5x-BVE3hfN6r',
-    },
-  ];
+interface PostBodyProps {
+  text: string;
+  links: linkType[];
+  imageLink?: string;
+  audioLink?: string;
+  videoLink?: string;
+}
 
-  // Media links
-  const imageLink =
-    'https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s';
-  const audioLink =
-    'https://filebrowser.apps.darideveloper.com/api/public/dl/q8VWevGc/ftf/mi-caja-de-herramientas/Hello.mp3';
-  const videoLink = 
-    'https://filebrowser.apps.darideveloper.com/api/public/dl/YIGE1mnv/ftf/mi-caja-de-herramientas/file_example_MP4_480_1_5MG.mp4';
+export default function PostBody({ text, links, imageLink, audioLink, videoLink }: PostBodyProps) {
+  console.log({ links });
 
   return (
     <View
@@ -61,6 +45,7 @@ export default function PostBody() {
             py-4
             shadow-md
             shadow-purpleDark
+            mb-12
           `}>
           <Text
             className={`
@@ -79,11 +64,11 @@ export default function PostBody() {
           className={`
             links-wrapper
             mx-auto
-            mt-6
             w-10/12
             flex-row
             justify-center
             gap-6
+            mb-12
           `}>
           {links.map((link: linkType) => (
             <Btn
@@ -109,27 +94,29 @@ export default function PostBody() {
       )}
 
       {/* Image */}
-      <View
-        className={`
-          img-wrapper
-          debug
-          ${videoLink ? '-mb-52': '-mb-28'}
-          mt-12
-          h-96
-          w-full
-          bg-white
-        `}>
-        <Image
-          source={{
-            uri: imageLink,
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-          resizeMode="cover"
-        />
-      </View>
+      {
+        imageLink &&
+        <View
+          className={`
+            img-wrapper
+            debug
+            ${videoLink ? '-mb-52' : '-mb-28'}
+            h-96
+            w-full
+            bg-white
+          `}>
+          <Image
+            source={{
+              uri: imageLink,
+            }}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            resizeMode="cover"
+          />
+        </View>
+      }
 
       {/* Audio player */}
       {audioLink && <Audio audioSrc={audioLink} />}

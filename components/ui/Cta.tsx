@@ -33,7 +33,6 @@ export default function Cta({
   function handleClick() {
     fetchData('random-post')
       .then((data: any) => {
-        console.log({data})
         if (Array.isArray(data) && data.length > 0) {
           navigation.navigate(navScreen, {id: data[0].id});
         }

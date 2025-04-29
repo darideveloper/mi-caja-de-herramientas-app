@@ -24,11 +24,25 @@ type RouteParams = {
 
 // Define the post data type
 interface PostData {
-  title: string;
+  duration: number;
+  links: [
+    {
+      id: number;
+      icon: string;
+      url: string;
+    }
+  ],
+  group: {
+    name: string;
+  };
   category: {
     name: string;
   };
-  duration: number;
+  title: string;
+  text: string;
+  image: string;
+  audio_link: string;
+  video_link: string;
 }
 
 export default function PostScreen() {
@@ -47,14 +61,13 @@ export default function PostScreen() {
     // get post data
     fetchData(`posts/${id}`).then((data: any) => {
       const typedData = data as PostData;
-      console.log('Post data:', typedData);
       setPostData(typedData);
     });
   }, [id]);
 
-  useEffect(() => {
-    console.log('Post data:', postData);
-  }, [postData]);
+  // useEffect(() => {
+  //   console.log('Post data:', postData);
+  // }, [postData]);
 
   return (
     <RootLayout>
@@ -81,7 +94,14 @@ export default function PostScreen() {
               postUnderline={postData?.category?.name || ''}
               durationMin={postData?.duration || 0}
             />
-            <PostBody />
+            <PostBody 
+              text={postData?.text || ''}
+              links={postData?.links || []}
+              imageLink={postData?.image || undefined}
+              audioLink={postData?.audio_link || undefined}
+              videoLink={postData?.video_link || undefined}
+            
+            />
           </>
         )}
       </ScrollView>

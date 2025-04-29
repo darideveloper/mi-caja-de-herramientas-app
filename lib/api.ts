@@ -28,7 +28,7 @@ export async function fetchData(endpoint: string): Promise<object[]> {
     } else {
       results = jsonData;
     }
-    console.log({endpoint, results})
+    // console.log({endpoint, results})
     return results
   } catch (error) {
     console.error('Error fetching data:', error);
