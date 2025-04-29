@@ -1,6 +1,7 @@
 // Components
 import { View } from 'react-native';
-import Nav from '../components/layouts/Nav';
+import { StatusBar } from 'expo-status-bar';
+
 
 // Libs
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -34,8 +35,8 @@ export default function RootLayout({ children, className }: RootLayoutProps) {
         paddingTop: insets.top + 10,
         paddingBottom: 65,
       }}
-    >
-
+    > 
+      <StatusBar style="light" />
       {children}
     </View>
   );
