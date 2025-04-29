@@ -2,8 +2,8 @@
 import RootLayout from 'layouts/RootLayout';
 
 // Sections
-import PostHeader from '../components/layouts/post/PostHeader';
-import PostBody from '../components/layouts/post/PostBody';
+import PostHeader from '../components/layouts/PostHeader';
+import PostBody from '../components/layouts/PostBody';
 
 // Components
 import { ScrollView } from 'react-native';

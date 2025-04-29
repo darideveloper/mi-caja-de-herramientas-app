@@ -1,9 +1,9 @@
 // Components
 import { View, Image } from 'react-native';
-import Text from '../../ui/Text';
-import Btn from '../../ui/Btn';
-import Audio from '../../ui/Audio';
-import Video from '../../ui/Video';
+import Text from '../ui/Text';
+import Btn from '../ui/Btn';
+import Audio from '../ui/Audio';
+import Video from '../ui/Video';
 
 // Libs
 import { Linking } from 'react-native';

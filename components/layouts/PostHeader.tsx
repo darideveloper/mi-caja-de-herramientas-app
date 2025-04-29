@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 // Components
 import { View, Image } from 'react-native';
-import Title from '../../ui/Title';
-import Text from '../../ui/Text';
-import Btn from '../../ui/Btn';
+import Title from '../ui/Title';
+import Text from '../ui/Text';
+import Btn from '../ui/Btn';
 
 interface PostHeaderProps {
   postTitle: string;
@@ -31,7 +31,7 @@ export default function PostHeader({ postTitle, postUnderline, durationMin }: Po
         pt-24
       `}>
       <Image
-        source={require('../../../assets/imgs/glow-large.png')}
+        source={require('../../assets/imgs/glow-large.png')}
         className={`
           absolute
           left-0
@@ -96,8 +96,8 @@ export default function PostHeader({ postTitle, postUnderline, durationMin }: Po
         `}
         iconSource={
           isfav
-            ? require('../../../assets/icons/fav-active.png')
-            : require('../../../assets/icons/fav-no-active.png')
+            ? require('../../assets/icons/fav-active.png')
+            : require('../../assets/icons/fav-no-active.png')
         }
         onPress={() => setIsFav(!isfav)}
       />
