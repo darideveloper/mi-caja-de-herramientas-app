@@ -3,7 +3,7 @@ import RootLayout from 'layouts/RootLayout';
 
 // Sections
 import Hero from '../components/layouts/Hero';
-import CategoryButtons from '../components/layouts/CategoryButtons';
+import CategoryButtons from '../components/layouts/GroupButtons';
 import PostsList from '../components/layouts/PostsList';
 
 // Components
