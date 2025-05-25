@@ -2,7 +2,7 @@
 import Title from './Title';
 import { Pressable, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, BackHandler } from 'react-native';
 
 // Icons
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -11,8 +11,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import glow from '../../assets/imgs/glow.png';
 
 // Libs
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { fetchData } from '../../lib/api';
 
@@ -31,6 +31,7 @@ export default function Cta({
 
   // Refresh randomPostId each time the page gains focus
   function handleClick() {
+    setIsLoading(true);
     fetchData('random-post')
       .then((data: any) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -39,13 +40,39 @@ export default function Cta({
       })
       .catch((error) => {
         console.error('Error fetching random post:', error);
+        setIsLoading(false); // Make sure to reset loading state on error
       });
   }
+  
+  // Handle hardware back button
+  useEffect(()=> {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        setIsLoading(false);
+        return false; // Let the default back behavior happen
+      }
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  // Reset loading state when screen comes into focus, but only if we're returning from another screen
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        if (navigation.canGoBack()) {
+          setIsLoading(false);
+        }
+      });
+
+      return unsubscribe;
+    }, [navigation])
+  );
 
   return (
     <Pressable
       onPress={() => {
-        setIsLoading(true);
         handleClick();
       }}
       className={`
