@@ -2,7 +2,7 @@
 import Title from './Title';
 import { Pressable, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ActivityIndicator, BackHandler } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 // Icons
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -11,8 +11,11 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import glow from '../../assets/imgs/glow.png';
 
 // Libs
-import { useEffect, useState, useCallback } from 'react';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
+// Context
+import { useLoading } from '../../context/LoadingContext';
 
 import { fetchData } from '../../lib/api';
 
@@ -23,15 +26,17 @@ export default function Cta({
 }) {
   // States
   const [isHover, setIsHover] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const navScreen = 'Post'; // Define the screen to navigate to
 
   // Navigation
   const navigation = useNavigation<any>();
 
-  // Refresh randomPostId each time the page gains focus
+  // Global loading state
+  const { isCtaLoading, setCtaLoading } = useLoading();
+
+  // Handle click and fetch random post
   function handleClick() {
-    setIsLoading(true);
+    setCtaLoading(true);
     fetchData('random-post')
       .then((data: any) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -40,41 +45,13 @@ export default function Cta({
       })
       .catch((error) => {
         console.error('Error fetching random post:', error);
-        setIsLoading(false); // Make sure to reset loading state on error
+        setCtaLoading(false);
       });
   }
-  
-  // Handle hardware back button
-  useEffect(()=> {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        setIsLoading(false);
-        return false; // Let the default back behavior happen
-      }
-    );
-
-    return () => backHandler.remove();
-  }, []);
-
-  // Reset loading state when screen comes into focus, but only if we're returning from another screen
-  useFocusEffect(
-    useCallback(() => {
-      const unsubscribe = navigation.addListener('focus', () => {
-        if (navigation.canGoBack()) {
-          setIsLoading(false);
-        }
-      });
-
-      return unsubscribe;
-    }, [navigation])
-  );
 
   return (
     <Pressable
-      onPress={() => {
-        handleClick();
-      }}
+      onPress={handleClick}
       className={`
         duration-600
         w-10/12
@@ -102,7 +79,7 @@ export default function Cta({
           ${isHover ? 'opacity-75' : 'opacity-100'}
         `}>
 
-        {isLoading ? (
+        {isCtaLoading ? (
           <ActivityIndicator size="large" color="#ffffff" />
         ) : (
           <Title

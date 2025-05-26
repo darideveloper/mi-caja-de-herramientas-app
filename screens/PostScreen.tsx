@@ -15,6 +15,9 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { fetchData } from '../lib/api';
 
+// Context
+import { useLoading } from '../context/LoadingContext';
+
 // Types
 import { PostDataType } from '../types/post';
 
@@ -33,8 +36,14 @@ export default function PostScreen() {
   // States
   const [postData, setPostData] = useState<PostDataType | null>(null);
 
+  // Global loading state
+  const { setCtaLoading } = useLoading();
+
   // Get post data when the component mounts
   useEffect(() => {
+    // Reset CTA loading state
+    setCtaLoading(false);
+
     // Validate id
     if (!id) return;
 
