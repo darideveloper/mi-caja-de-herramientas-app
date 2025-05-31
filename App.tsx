@@ -11,10 +11,15 @@ import ResultsScreen from 'screens/ResultsScreen';
 
 // Components
 import Nav from './components/layouts/Nav';
+import Header from './components/layouts/Header';
+import DrawerMenu from './components/layouts/DrawerMenu';
 import { View } from 'react-native';
 
 // Context
 import { LoadingProvider } from './context/LoadingContext';
+
+// Hooks
+import { useState } from 'react';
 
 // Styles
 import './global.css';
@@ -23,12 +28,22 @@ import './global.css';
 const RootStack = createNativeStackNavigator();
 
 export default function App() {
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState('Home');
+
   return (
     <LoadingProvider>
       <SafeAreaProvider>
         <StatusBar style="auto" />
-        <NavigationContainer>
-          {/* Page conteiner*/}
+        <NavigationContainer
+          onStateChange={(state) => {
+            const currentRouteName = state?.routes[state.index]?.name;
+            if (currentRouteName) {
+              setCurrentScreen(currentRouteName);
+            }
+          }}
+        >
+          {/* Page container*/}
           <View style={{ flex: 1 }}>
             <RootStack.Navigator
               initialRouteName="Home"
@@ -42,6 +57,18 @@ export default function App() {
               <RootStack.Screen name="Post" component={PostScreen} />
               <RootStack.Screen name="Results" component={ResultsScreen} />
             </RootStack.Navigator>
+            
+            {/* Header with menu/back button */}
+            <Header 
+              onMenuPress={() => setIsDrawerVisible(true)} 
+              screenName={currentScreen}
+            />
+
+            {/* Drawer Menu */}
+            <DrawerMenu 
+              isVisible={isDrawerVisible}
+              onClose={() => setIsDrawerVisible(false)}
+            />
             
             {/* Custom header / Nav bar */}
             <Nav />
