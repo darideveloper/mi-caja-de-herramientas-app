@@ -1,4 +1,5 @@
 // Components
+import React from 'react';
 import { View, Animated, Pressable, Dimensions, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Text from '../ui/Text';
@@ -52,23 +53,26 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
     { 
       name: 'Inicio', 
       route: 'Home',
-      icon: require('../../assets/icons/home.png')
+      icon: require('../../assets/icons/home.png'),
+      params: {}
     },
     { 
       name: 'Filtros', 
       route: 'Results',
-      icon: require('../../assets/icons/filter.png')
+      icon: require('../../assets/icons/filter.png'),
+      params: { showFilters: true }
     },
     { 
       name: 'Favoritos', 
       route: 'Favorites',
-      icon: require('../../assets/icons/fav.png')
+      icon: require('../../assets/icons/fav.png'),
+      params: {}
     },
   ];
 
-  const handleNavigation = (route: string) => {
+  const handleNavigation = (route: string, params: any = {}) => {
     onClose();
-    navigation.navigate(route);
+    navigation.navigate(route, params);
   };
 
   if (!isVisible) return null;
@@ -144,36 +148,35 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
 
         {/* Menu Items */}
         <View className={`bg-white w-full h-full p-12 rounded-l-3xl border-purple`}>
-
-        {menuItems.map((item) => (
-          <Pressable
-            key={item.route}
-            onPress={() => handleNavigation(item.route)}
-            className={`
-              mb-8
-              flex-row
-              items-center
-              w-full
-            `}
-          >
-            <Image
-              source={item.icon}
+          {menuItems.map((item) => (
+            <Pressable
+              key={item.route}
+              onPress={() => handleNavigation(item.route, item.params)}
               className={`
-                mr-4
-                h-6
-                w-6
-              `}
-            />
-            <Text
-              className={`
-                text-xl
-                text-purpleDark
+                mb-8
+                flex-row
+                items-center
+                w-full
               `}
             >
-              {item.name}
-            </Text>
-          </Pressable>
-        ))}
+              <Image
+                source={item.icon}
+                className={`
+                  mr-4
+                  h-6
+                  w-6
+                `}
+              />
+              <Text
+                className={`
+                  text-xl
+                  text-purpleDark
+                `}
+              >
+                {item.name}
+              </Text>
+            </Pressable>
+          ))}
         </View>
       </Animated.View>
     </View>
