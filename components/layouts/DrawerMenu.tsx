@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import Text from '../ui/Text';
 
 // Hooks
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface DrawerMenuProps {
   isVisible: boolean;
@@ -16,9 +16,11 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
   const navigation = useNavigation<any>();
   const slideAnim = useRef(new Animated.Value(400)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
     if (isVisible) {
+      setShouldRender(true);
       // Animate in
       Animated.parallel([
         Animated.timing(slideAnim, {
@@ -45,7 +47,9 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
           duration: 300,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start(() => {
+        setShouldRender(false);
+      });
     }
   }, [isVisible]);
 
@@ -75,7 +79,7 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
     navigation.navigate(route, params);
   };
 
-  if (!isVisible) return null;
+  if (!shouldRender) return null;
 
   return (
     <View
