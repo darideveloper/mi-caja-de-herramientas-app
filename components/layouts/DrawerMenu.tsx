@@ -134,8 +134,8 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
             source={require('../../assets/imgs/profile.png')}
             className={`
               mb-4
-              h-24
-              w-24
+              h-16
+              w-16
               rounded-full
             `}
           />

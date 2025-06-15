@@ -84,10 +84,32 @@ export default function ResultsScreen() {
           </>
         )}
       </ScrollView>
+      
 
-      <FilterModal 
+      <FilterModal
         isVisible={isFilterModalVisible}
         onClose={() => setIsFilterModalVisible(false)}
+        onApplyFilters={(filters) => {
+          // Show loading spinner while applying filters
+          setIsLoading(true);
+          
+          // Construct the API query
+          const params = new URLSearchParams();
+          if (filters.groupId) params.append('group', filters.groupId.toString());
+          if (filters.categoryIds.length > 0) params.append('category', filters.categoryIds.join(','));
+          if (filters.duration) params.append('duration', filters.duration.toString());
+          params.append('summary', 'true');
+          
+          // Call your API with: posts?${params.toString()}
+          fetchData(`posts?${params.toString()}`, false).then((data: any) => {
+            const typedData = data as PostSummaryType[];
+            setPosts(typedData);
+            setIsLoading(false); // Hide loading spinner when done
+          }).catch((error) => {
+            console.error('Error applying filters:', error);
+            setIsLoading(false); // Hide loading spinner even on error
+          });
+        }}
       />
     </RootLayout>
   );
