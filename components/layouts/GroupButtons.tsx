@@ -76,7 +76,7 @@ export default function CategoryButtons() {
         gap-4
         py-8
       `}>
-      {(isLoading || !categoriesData)? (
+      {(isLoading || !categoriesData || categoriesData == undefined || categoriesData.length === 0) ? (
         <ActivityIndicator size="large" color="#ffffff" />
       ) : (
         categoriesData.map((category) => (
