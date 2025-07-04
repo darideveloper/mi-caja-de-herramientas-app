@@ -13,6 +13,7 @@ import glow from '../../assets/imgs/glow.png';
 // Libs
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { storage } from '../../lib/storage';
 
 // Context
 import { useLoading } from '../../context/LoadingContext';
@@ -40,7 +41,15 @@ export default function Cta({
     fetchData('random-post')
       .then((data: any) => {
         if (Array.isArray(data) && data.length > 0) {
-          navigation.navigate(navScreen, {id: data[0].id});
+          const post = data[0];
+          // Save to visited posts
+          const postSummary = {
+            id: post.id,
+            title: post.title,
+            post_type: (post.video_link ? 'video' : post.audio_link ? 'audio' : 'social') as 'video' | 'audio' | 'social'
+          };
+          storage.saveVisitedPost(postSummary);
+          navigation.navigate(navScreen, {id: post.id});
         }
       })
       .catch((error) => {

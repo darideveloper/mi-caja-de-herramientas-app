@@ -80,7 +80,11 @@ export default function ResultsScreen() {
         ) : (
           <>
             <ResultsHeader title={posts.length == 0 ? "No se encontraron resultados" : title} />
-            <PostsList postsData={posts} className={`min-h-[80vh]`} />
+            <PostsList 
+              postsData={posts} 
+              className={`min-h-[80vh]`} 
+              emptyMessage="No se encontraron resultados para mostrar"
+            />
           </>
         )}
       </ScrollView>

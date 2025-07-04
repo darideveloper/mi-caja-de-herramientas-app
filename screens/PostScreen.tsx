@@ -14,12 +14,13 @@ import { View } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { fetchData } from '../lib/api';
+import { storage } from '../lib/storage';
 
 // Context
 import { useLoading } from '../context/LoadingContext';
 
 // Types
-import { PostDataType } from '../types/post';
+import { PostDataType, PostSummaryType } from '../types/post';
 
 // Define the route params type
 type RouteParams = {
@@ -51,6 +52,14 @@ export default function PostScreen() {
     fetchData(`posts/${id}`).then((data: any) => {
       const typedData = data as PostDataType;
       setPostData(typedData);
+      
+      // Save to visited posts
+      const postSummary: PostSummaryType = {
+        id: typedData.id,
+        title: typedData.title,
+        post_type: typedData.video_link ? 'video' : typedData.audio_link ? 'audio' : 'social'
+      };
+      storage.saveVisitedPost(postSummary);
     });
   }, [id]);
 

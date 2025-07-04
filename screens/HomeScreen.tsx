@@ -8,9 +8,16 @@ import PostsList from '../components/layouts/PostsList';
 
 // Components
 import { ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
 
 // Types
 import { PostSummaryType } from '../types/post';
+import { VisitedPost } from '../lib/storage';
+
+// Storage
+import { storage } from '../lib/storage';
 
 // Dummy data
 
@@ -48,12 +55,36 @@ const recentPosts: PostSummaryType[] = [
 ];
 
 export default function Home() {
+  const [visitedPosts, setVisitedPosts] = useState<VisitedPost[]>([]);
+
+  // Load visited posts on component mount and when screen comes into focus
+  const loadVisitedPosts = async () => {
+    const posts = await storage.getVisitedPosts();
+    setVisitedPosts(posts);
+  };
+
+  useEffect(() => {
+    loadVisitedPosts();
+  }, []);
+
+  // Refresh visited posts when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      loadVisitedPosts();
+    }, [])
+  );
+
   return (
     <RootLayout>
       <ScrollView>
         <Hero />
         <CategoryButtons />
-        <PostsList postsData={recentPosts} className={`mt-12 rounded-t-3xl`} title="Recientes" />
+        <PostsList 
+          postsData={visitedPosts} 
+          className={`mt-12 rounded-t-3xl`} 
+          title="Recientes" 
+          emptyMessage="No hay meditaciones recientes para mostrar"
+        />
       </ScrollView>
     </RootLayout>
   );

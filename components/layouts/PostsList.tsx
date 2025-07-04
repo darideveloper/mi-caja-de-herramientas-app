@@ -6,17 +6,19 @@ import Text from 'components/ui/Text';
 
 // Types
 import { PostSummaryType } from '../../types/post';
+import { VisitedPost } from '../../lib/storage';
 
 // Libs
 import { useNavigation } from '@react-navigation/native';
 
 interface PostListProps {
-  postsData: PostSummaryType[];
+  postsData: (PostSummaryType | VisitedPost)[];
   title?: string;
   className?: string;
+  emptyMessage?: string;
 }
 
-export default function PostList({ postsData, title="", className }: PostListProps) {
+export default function PostList({ postsData, title="", className, emptyMessage }: PostListProps) {
 
   // Icons
   const icons: { [key in 'video' | 'social' | 'audio']: any } = {
@@ -60,26 +62,39 @@ export default function PostList({ postsData, title="", className }: PostListPro
           gap-4
         `}
       >
-        {postsData.map((post) => (
-          <Btn 
-            key={post.id}
-            iconSource={icons[post.post_type]}
-            className={`
-              w-full
-            `}
-            onPress={() => {
-              navigation.navigate("Post", {id: post.id});
-            }}
-          >
-            <Text
+        {postsData.length > 0 ? (
+          postsData.map((post) => (
+            <Btn 
+              key={post.id}
+              iconSource={icons[post.post_type]}
               className={`
-                w-10/12  
+                w-full
               `}
+              onPress={() => {
+                navigation.navigate("Post", {id: post.id});
+              }}
             >
-              {post.title}
-            </Text>
-          </Btn>
-        ))}
+              <Text
+                className={`
+                  w-10/12  
+                `}
+              >
+                {post.title}
+              </Text>
+            </Btn>
+          ))
+        ) : (
+          <Text
+            className={`
+              text-center
+              text-gray-500
+              text-lg
+              py-8
+            `}
+          >
+            {emptyMessage || "No hay contenido para mostrar"}
+          </Text>
+        )}
       </View>
     </View>
   );
