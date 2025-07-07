@@ -38,7 +38,7 @@ export default function CategoryButtons() {
       try {
         // Try to get categories from AsyncStorage
         const storedCategories = await getCategories();
-        if (storedCategories) {
+        if (storedCategories && storedCategories.length > 0 && storedCategories != undefined) {
           console.log('Categories loaded from AsyncStorage:', storedCategories);
           setCategoriesData(storedCategories);
           setIsLoading(false);
