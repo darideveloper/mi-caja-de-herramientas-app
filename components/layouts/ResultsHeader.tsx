@@ -11,17 +11,16 @@ export default function ResultsHeader({ title }: PostHeaderProps) {
     <View
       className={`
         bg-white
-      `}
-    >
+      `}>
       <View
         className={`
           relative
           inline-block
           w-full
           overflow-hidden
+          rounded-br-3xl
           bg-purpleDark
           py-12
-          rounded-br-3xl
         `}>
         <Image
           source={require('../../assets/imgs/glow-large.png')}

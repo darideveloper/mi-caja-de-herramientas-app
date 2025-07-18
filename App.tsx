@@ -41,38 +41,30 @@ export default function App() {
             if (currentRouteName) {
               setCurrentScreen(currentRouteName);
             }
-          }}
-        >
+          }}>
           {/* Page container*/}
           <View style={{ flex: 1 }}>
             <RootStack.Navigator
               initialRouteName="Home"
               screenOptions={{
                 headerShown: false, // Hide default header
-              }}
-            >
+              }}>
               {/* Pages */}
               <RootStack.Screen name="Home" component={HomeScreen} />
               <RootStack.Screen name="Favorites" component={FavoritesScreen} />
               <RootStack.Screen name="Post" component={PostScreen} />
               <RootStack.Screen name="Results" component={ResultsScreen} />
             </RootStack.Navigator>
-            
-            {/* Header with menu/back button */}
-            <Header 
-              onMenuPress={() => setIsDrawerVisible(true)} 
-              screenName={currentScreen}
-            />
 
-            {/* Drawer Menu */}
-            <DrawerMenu 
-              isVisible={isDrawerVisible}
-              onClose={() => setIsDrawerVisible(false)}
-            />
-            
             {/* Custom header / Nav bar */}
             <Nav />
           </View>
+
+          {/* Header with menu/back button - Outside main container for proper z-index */}
+          <Header onMenuPress={() => setIsDrawerVisible(true)} screenName={currentScreen} />
+
+          {/* Drawer Menu - Outside main container for proper z-index */}
+          <DrawerMenu isVisible={isDrawerVisible} onClose={() => setIsDrawerVisible(false)} />
         </NavigationContainer>
       </SafeAreaProvider>
     </LoadingProvider>

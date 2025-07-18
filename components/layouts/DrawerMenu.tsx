@@ -1,11 +1,11 @@
-// Components
-import React from 'react';
-import { View, Animated, Pressable, Dimensions, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Text from '../ui/Text';
-
 // Hooks
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useRef, useState } from 'react';
+// Components
+import { View, Animated, Pressable, Image } from 'react-native';
+
+//UI
+import Text from '../ui/Text';
 
 interface DrawerMenuProps {
   isVisible: boolean;
@@ -54,28 +54,39 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
   }, [isVisible]);
 
   const menuItems = [
-    { 
-      name: 'Inicio', 
+    {
+      name: 'Inicio',
       route: 'Home',
       icon: require('../../assets/icons/home.png'),
-      params: {}
+      params: {},
     },
-    { 
-      name: 'Filtros', 
+    {
+      name: 'Filtros',
       route: 'Results',
       icon: require('../../assets/icons/filter.png'),
-      params: { showFilters: true }
+      params: { showFilters: true },
     },
-    { 
-      name: 'Favoritos', 
+    {
+      name: 'Favoritos',
       route: 'Favorites',
       icon: require('../../assets/icons/fav.png'),
-      params: {}
+      params: {},
     },
   ];
 
   const handleNavigation = (route: string, params: any = {}) => {
+    console.log('DrawerMenu: Navigating to', route, 'with params:', params);
     onClose();
+
+    // For Filtros, navigate to Home first, then to Results to force re-render
+    if (route === 'Results' && params.showFilters) {
+      navigation.navigate('Home');
+      setTimeout(() => {
+        navigation.navigate(route, params);
+      }, 100);
+      return;
+    }
+
     navigation.navigate(route, params);
   };
 
@@ -85,13 +96,16 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
     <View
       className={`
         absolute
-        top-0
         left-0
-        z-50
+        top-0
+        z-[9999]
         h-full
         w-full
       `}
-    >
+      style={{
+        elevation: 1000,
+        zIndex: 1000,
+      }}>
       {/* Backdrop */}
       <Animated.View
         className={`
@@ -100,12 +114,8 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
           w-full
           bg-black
         `}
-        style={{ opacity: fadeAnim }}
-      >
-        <Pressable
-          className="h-full w-full"
-          onPress={onClose}
-        />
+        style={{ opacity: fadeAnim }}>
+        <Pressable className="h-full w-full" onPress={onClose} />
       </Animated.View>
 
       {/* Menu */}
@@ -120,16 +130,14 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
         `}
         style={{
           transform: [{ translateX: slideAnim }],
-        }}
-      >
+        }}>
         {/* Profile Section */}
         <View
           className={`
             mb-12
             items-center
             justify-center
-          `}
-        >
+          `}>
           <Image
             source={require('../../assets/imgs/profile.png')}
             className={`
@@ -144,25 +152,23 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
               text-2xl
               font-bold
               text-white
-            `}
-          >
+            `}>
             Guest User
           </Text>
         </View>
 
         {/* Menu Items */}
-        <View className={`bg-white w-full h-full p-12 rounded-l-3xl border-purple`}>
+        <View className={`h-full w-full rounded-l-3xl border-purple bg-white p-12`}>
           {menuItems.map((item) => (
             <Pressable
               key={item.route}
               onPress={() => handleNavigation(item.route, item.params)}
               className={`
                 mb-8
+                w-full
                 flex-row
                 items-center
-                w-full
-              `}
-            >
+              `}>
               <Image
                 source={item.icon}
                 className={`
@@ -175,8 +181,7 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
                 className={`
                   text-xl
                   text-purpleDark
-                `}
-              >
+                `}>
                 {item.name}
               </Text>
             </Pressable>
@@ -185,4 +190,4 @@ export default function DrawerMenu({ isVisible, onClose }: DrawerMenuProps) {
       </Animated.View>
     </View>
   );
-} 
+}

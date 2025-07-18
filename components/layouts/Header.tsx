@@ -17,17 +17,24 @@ export default function Header({ onMenuPress, screenName }: HeaderProps) {
 
   return (
     <>
-      {/* Back button container - only show on non-home screens */}
-      {!isHomeScreen && (
-        <View
-          className={`
-            absolute
-            top-10
-            left-0
-            z-50
-            p-4
-          `}
-        >
+      <View
+        className={`
+          absolute
+          left-0
+          right-0
+          top-0
+          z-[9999]
+          flex-row
+          justify-between
+          p-4
+          pt-10
+        `}
+        style={{
+          elevation: 1000,
+          zIndex: 1000,
+        }}>
+        {/* Back button - only show on non-home screens */}
+        {!isHomeScreen ? (
           <Btn
             iconSource={require('../../assets/icons/back.png')}
             onPress={() => navigation.goBack()}
@@ -42,19 +49,11 @@ export default function Header({ onMenuPress, screenName }: HeaderProps) {
               h-8
             `}
           />
-        </View>
-      )}
+        ) : (
+          <View style={{ width: 48, height: 48 }} />
+        )}
 
-      {/* Menu button container - show on all screens */}
-      <View
-        className={`
-          absolute
-          top-10
-          right-0
-          z-50
-          p-4
-        `}
-      >
+        {/* Menu button - show on all screens */}
         <Btn
           iconSource={require('../../assets/icons/menu.png')}
           onPress={onMenuPress}
@@ -72,4 +71,4 @@ export default function Header({ onMenuPress, screenName }: HeaderProps) {
       </View>
     </>
   );
-} 
+}
