@@ -131,6 +131,7 @@ export default function ResultsScreen() {
           params.append('summary', 'true');
 
           // Call your API with: posts?${params.toString()}
+          console.log(`posts?${params.toString()}`)
           fetchData(`posts?${params.toString()}`, false)
             .then((data: any) => {
               const typedData = data as PostSummaryType[];

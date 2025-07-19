@@ -9,21 +9,21 @@ import { ActivityIndicator } from 'react-native';
 
 // Libs
 import { fetchData } from '../../lib/api';
-import { getCategories, setCategories } from '../../store/categories'; // Import category storage functions
+import { getGroups, setGroups } from '../../store/groups';
 import { useNavigation } from '@react-navigation/native';
 
 
-// Add interface for category data
-interface Category {
+// Add interface for group data
+interface group {
   id: number;
   name: string;
   icon: string;
 }
 
-export default function CategoryButtons() {
+export default function groupButtons() {
 
   // States
-  const [categoriesData, setCategoriesData] = useState<Category[]>([]);
+  const [groupsData, setGroupsData] = useState<group[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Navigation
@@ -32,42 +32,42 @@ export default function CategoryButtons() {
   useEffect(() => {
 
     /**
-     * Load categories from AsyncStorage or API
+     * Load groups from AsyncStorage or API
      */
-    const loadCategories = async () => {
+    const loadGroups = async () => {
       try {
-        // Try to get categories from AsyncStorage
-        const storedCategories = await getCategories();
-        if (storedCategories && storedCategories.length > 0 && storedCategories != undefined) {
+        // Try to get groups from AsyncStorage
+        const storedgroups = await getGroups();
+        if (storedgroups && storedgroups.length > 0 && storedgroups != undefined) {
 
           // Type data
-          const typedData = storedCategories as Category[];
+          const typedData = storedgroups as group[];
 
           // Save data
-          console.log('Categories loaded from AsyncStorage:', storedCategories);
-          setCategoriesData(typedData);
+          console.log('groups loaded from AsyncStorage:', storedgroups);
+          setGroupsData(typedData);
           setIsLoading(false);
         } else {
-          // Fetch categories from API if not in AsyncStorage
+          // Fetch groups from API if not in AsyncStorage
           const data = await fetchData('groups');
-          const typedData = data as Category[];
-          setCategoriesData(typedData);
-          await setCategories(typedData); // Save categories to AsyncStorage
+          const typedData = data as group[];
+          setGroupsData(typedData);
+          await setGroups(typedData); // Save groups to AsyncStorage
           setIsLoading(false);
         }
       } catch (error) {
-        console.error('Error loading categories:', error);
+        console.error('Error loading groups:', error);
         setIsLoading(false);
       }
     };
 
-    // Load categories when the component mounts
-    loadCategories();
+    // Load groups when the component mounts
+    loadGroups();
   }, []);
 
   useEffect(() => {
-    console.log('Categories data:', categoriesData);
-  }, [categoriesData]);
+    console.log('groups data:', groupsData);
+  }, [groupsData]);
 
   return (
     <View
@@ -81,17 +81,17 @@ export default function CategoryButtons() {
         gap-4
         py-8
       `}>
-      {(isLoading || !categoriesData || categoriesData == undefined || categoriesData.length === 0) ? (
+      {(isLoading || !groupsData || groupsData == undefined || groupsData.length === 0) ? (
         <ActivityIndicator size="large" color="#ffffff" />
       ) : (
-        categoriesData.map((category) => (
+        groupsData.map((group) => (
           <Btn 
-            key={category.id}
-            iconSource={{ uri: category.icon }} 
+            key={group.id}
+            iconSource={{ uri: group.icon }} 
             onPress={() => {
               navigation.navigate("Results", {
-                categoryId: category.id,
-                title: category.name,
+                groupId: group.id,
+                title: group.name,
               });
             }}
           >
@@ -99,7 +99,7 @@ export default function CategoryButtons() {
               className={`
                 w-11/12
               `}>
-              {category.name}
+              {group.name}
             </Text>
           </Btn>
         ))
