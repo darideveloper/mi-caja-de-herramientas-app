@@ -42,8 +42,8 @@ export async function loginGuest(): Promise<ApiResponse | { status: number }> {
   const jsonData = await response.json();
 
   // Update tokens
-  setAccessToken(jsonData.data.access);
-  setRefreshToken(jsonData.data.refresh);
+  await setAccessToken(jsonData.data.access);
+  await setRefreshToken(jsonData.data.refresh);
 
   // Return data
   return jsonData as ApiResponse;

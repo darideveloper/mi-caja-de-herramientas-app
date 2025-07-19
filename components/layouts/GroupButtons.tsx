@@ -39,8 +39,13 @@ export default function CategoryButtons() {
         // Try to get categories from AsyncStorage
         const storedCategories = await getCategories();
         if (storedCategories && storedCategories.length > 0 && storedCategories != undefined) {
+
+          // Type data
+          const typedData = storedCategories as Category[];
+
+          // Save data
           console.log('Categories loaded from AsyncStorage:', storedCategories);
-          setCategoriesData(storedCategories);
+          setCategoriesData(typedData);
           setIsLoading(false);
         } else {
           // Fetch categories from API if not in AsyncStorage

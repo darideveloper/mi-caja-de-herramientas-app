@@ -9,10 +9,21 @@ import { getAccessToken } from 'store/tokens';
  */
 export async function fetchData(endpoint: string, backstask: boolean = true): Promise<object[]> {
   try {
+    
+    // Wait until acess token its ready
+    let accessToken = '';
+    while (true) {
+      accessToken = await getAccessToken() || '';
+      if (accessToken != '') {
+        break;
+      }
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    
+    console.log({accessToken, endpoint})
     const myHeaders = new Headers();
-    const accessToken = await getAccessToken()
-    myHeaders.append('Authorization', `Bearer ${accessToken || ''}`);
-
+    myHeaders.append('Authorization', `Bearer ${accessToken}`);
+    
     const requestOptions: FetchRequestInit = {
       method: 'GET',
       headers: myHeaders,
