@@ -167,9 +167,9 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
       <View className={`flex-1 justify-end bg-black/50`}>
-        <View className={`rounded-t-3xl bg-white p-8`} style={{ maxHeight: '90%' }}>
+        <View className={`w-full rounded-t-3xl bg-white p-8`} style={{ maxHeight: '90%' }}>
           <ScrollView
-            contentContainerStyle={{ paddingBottom: 24 }}
+            contentContainerStyle={{ paddingBottom: 24, width: '100%' }}
             showsVerticalScrollIndicator={false}>
             <View className={`mb-8 flex-row items-center justify-between`}>
               <Text className={`text-2xl font-bold text-purpleDark`}>Filtros</Text>
@@ -182,7 +182,7 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
             </View>
 
             {/* Dropdown for mood (from API) */}
-            <View className="mb-6">
+            <View className="mb-6 w-full">
               <Text className="mb-2 text-base font-semibold text-black">Estados de ánimo</Text>
               <Dropdown
                 options={groups}
@@ -195,14 +195,14 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
             </View>
 
             {/* Categories from API */}
-            <View className="mb-6">
+            <View className="mb-6 flex w-full">
               <Text className="mb-2 text-base font-semibold text-black">Categorías</Text>
               {categoriesLoading ? (
                 <ActivityIndicator size="small" color="#888" />
               ) : categoriesError ? (
                 <Text className="text-red-500">{categoriesError}</Text>
               ) : (
-                <View className="flex-row flex-wrap gap-2">
+                <View className="w-full flex-row flex-wrap items-center justify-center gap-2">
                   {categories.map((cat) => (
                     <TouchableOpacity
                       key={cat.id}
