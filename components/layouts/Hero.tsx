@@ -8,6 +8,8 @@ import Cta from '../ui/Cta';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 
+// Assets
+import videoHeroOverlay from '../../assets/imgs/video-hero-overlay.png';
 
 export default function Hero() {
 
@@ -42,7 +44,7 @@ export default function Hero() {
       <Video
         src={'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
         autoPlay={autoplay}
-        overlaySrc={require('../../assets/imgs/video-hero-overlay.png')}
+        overlaySrc={videoHeroOverlay}
       />
 
       <Cta 

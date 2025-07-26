@@ -86,7 +86,7 @@ export default function Video({
       />
 
       {
-        !autoPlay &&
+        !autoPlay && overlaySrc &&
         <Pressable
           className={`
             absolute

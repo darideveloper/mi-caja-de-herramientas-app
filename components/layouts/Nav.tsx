@@ -13,7 +13,15 @@ export default function Nav() {
   // Navigation buttons
   const buttons = ['Home', 'Favorites'];
   const navigation = useNavigation<any>();
-  const currentRoute = useNavigationState(state => state?.routes[state.index]?.name ?? 'Home');
+  
+  // Safely get navigation state with error handling
+  let currentRoute = 'Home';
+  try {
+    currentRoute = useNavigationState(state => state?.routes[state.index]?.name ?? 'Home');
+  } catch (error) {
+    console.warn('Navigation state not available yet:', error);
+    // Keep currentRoute as 'Home' (default value)
+  }
 
   return (
     <View
