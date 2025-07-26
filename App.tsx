@@ -2,6 +2,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Platform } from 'react-native';
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
@@ -34,7 +35,11 @@ export default function App() {
   return (
     <LoadingProvider>
       <SafeAreaProvider>
-        <StatusBar style="auto" />
+        <StatusBar 
+          style="light" 
+          backgroundColor="transparent"
+          translucent={Platform.OS === 'android'}
+        />
         <NavigationContainer
           onStateChange={(state) => {
             const currentRouteName = state?.routes[state.index]?.name;

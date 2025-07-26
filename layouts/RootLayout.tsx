@@ -2,11 +2,9 @@
 import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-
 // Libs
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { usePlatformSafeArea } from '../lib/safeArea';
 import { loginGuest } from '../lib/auth'
-
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -15,7 +13,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children, className }: RootLayoutProps) {
 
-  const insets = useSafeAreaInsets();
+  const { getTopPadding, getNavigationBarHeight } = usePlatformSafeArea();
 
   // Auto auth || skip login system
   loginGuest()
@@ -32,8 +30,8 @@ export default function RootLayout({ children, className }: RootLayoutProps) {
         justify-center
       `}
       style={{
-        paddingTop: insets.top + 10,
-        paddingBottom: 65,
+        paddingTop: getTopPadding(10),
+        paddingBottom: getNavigationBarHeight(), // Use precise navigation bar height
       }}
     > 
       <StatusBar style="light" />

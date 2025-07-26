@@ -6,13 +6,14 @@ import { View } from 'react-native';
 // Libs
 import { useNavigation } from '@react-navigation/native';
 import { useNavigationState } from '@react-navigation/native';
-
+import { usePlatformSafeArea } from '../../lib/safeArea';
 
 export default function Nav() {
   
   // Navigation buttons
   const buttons = ['Home', 'Favorites'];
   const navigation = useNavigation<any>();
+  const { getBottomPadding } = usePlatformSafeArea();
   
   // Safely get navigation state with error handling
   let currentRoute = 'Home';
@@ -38,6 +39,9 @@ export default function Nav() {
         px-6
         rounded-t-xl
       `}
+      style={{
+        paddingBottom: getBottomPadding(2), // Minimal padding
+      }}
     >
       {
         buttons.map((button, index) => (
@@ -49,7 +53,7 @@ export default function Nav() {
               flex-1
               justify-center
               items-center
-              py-4
+              py-3
             `}
           >
             <Btn 
