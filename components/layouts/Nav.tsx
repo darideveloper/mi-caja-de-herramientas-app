@@ -28,7 +28,7 @@ export default function Nav() {
     <View
       className={`
         absolute
-        bg-purple
+        bg-purpleDark
         bottom-0
         left-0
         flex
@@ -38,6 +38,7 @@ export default function Nav() {
         w-full
         px-6
         rounded-t-xl
+        shadow-lg
       `}
       style={{
         paddingBottom: getBottomPadding(2), // Minimal padding
@@ -59,11 +60,11 @@ export default function Nav() {
             <Btn 
               className={`
                 text-center
-                bg-purpleDark
+                ${currentRoute === button ? 'bg-purple' : 'bg-purpleDark'}
                 py-1
                 w-11/12
               `}
-              variant='dark'
+              variant={currentRoute === button ? 'purple' : 'dark'}
               onPress={() => navigation.navigate(button)}
               disabled={currentRoute === button}
             >

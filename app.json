@@ -15,11 +15,11 @@
     ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#3a2546"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -28,19 +28,23 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.daridev.micajadeherramientas",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIStatusBarStyle": "light-content",
+        "UIViewControllerBasedStatusBarAppearance": false
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#3a2546"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
       ],
-      "package": "com.daridev.micajadeherramientas"
+      "package": "com.daridev.micajadeherramientas",
+      "navigationBarColor": "#3a2546",
+      "navigationBarStyle": "dark"
     },
     "extra": {
       "eas": {

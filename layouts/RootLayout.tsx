@@ -34,7 +34,7 @@ export default function RootLayout({ children, className }: RootLayoutProps) {
         paddingBottom: getNavigationBarHeight(), // Use precise navigation bar height
       }}
     > 
-      <StatusBar style="light" />
+      <StatusBar style="light" backgroundColor="#3a2546" />
       {children}
     </View>
   );

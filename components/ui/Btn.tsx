@@ -31,6 +31,11 @@ export default function Btn({
     purple: ' bg-purple text-white',
   }
 
+  // Add specific styling for disabled state
+  if (disabled && variant === 'purple') {
+    className += ' bg-purple text-white';
+  }
+
   className += variants[variant];
 
   return (
@@ -47,7 +52,7 @@ export default function Btn({
         ${isHover ? 'scale-105' : 'scale-100'}
         ${isHover ? 'opacity-75' : 'opacity-100'}
         ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
-        ${disabled ? 'opacity-50' : 'opacity-100'}
+        ${disabled ? 'opacity-80' : 'opacity-100'}
       `}
       disabled={disabled}>
       <View

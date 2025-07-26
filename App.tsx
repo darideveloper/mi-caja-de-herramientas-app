@@ -37,7 +37,7 @@ export default function App() {
       <SafeAreaProvider>
         <StatusBar 
           style="light" 
-          backgroundColor="transparent"
+          backgroundColor="#3a2546"
           translucent={Platform.OS === 'android'}
         />
         <NavigationContainer
