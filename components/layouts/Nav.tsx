@@ -66,7 +66,7 @@ export default function Nav() {
               `}
               variant={currentRoute === button ? 'purple' : 'dark'}
               onPress={() => navigation.navigate(button)}
-              disabled={currentRoute === button}
+              disabled={false}
             >
               <Title
                 className={`
