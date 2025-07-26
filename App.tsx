@@ -62,7 +62,7 @@ export default function App() {
             </RootStack.Navigator>
 
             {/* Custom header / Nav bar */}
-            <Nav />
+            <Nav currentRoute={currentScreen} />
           </View>
 
           {/* Header with menu/back button - Outside main container for proper z-index */}

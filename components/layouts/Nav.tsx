@@ -5,24 +5,18 @@ import { View } from 'react-native';
 
 // Libs
 import { useNavigation } from '@react-navigation/native';
-import { useNavigationState } from '@react-navigation/native';
 import { usePlatformSafeArea } from '../../lib/safeArea';
 
-export default function Nav() {
+interface NavProps {
+  currentRoute?: string;
+}
+
+export default function Nav({ currentRoute = 'Home' }: NavProps) {
   
   // Navigation buttons
   const buttons = ['Home', 'Favorites'];
   const navigation = useNavigation<any>();
   const { getBottomPadding } = usePlatformSafeArea();
-  
-  // Safely get navigation state with error handling
-  let currentRoute = 'Home';
-  try {
-    currentRoute = useNavigationState(state => state?.routes[state.index]?.name ?? 'Home');
-  } catch (error) {
-    console.warn('Navigation state not available yet:', error);
-    // Keep currentRoute as 'Home' (default value)
-  }
 
   return (
     <View
@@ -60,11 +54,10 @@ export default function Nav() {
             <Btn 
               className={`
                 text-center
-                ${currentRoute === button ? 'bg-purple' : 'bg-purpleDark'}
                 py-1
                 w-11/12
               `}
-              variant={currentRoute === button ? 'purple' : 'dark'}
+              variant={currentRoute !== button ? 'purple' : 'dark'}
               onPress={() => navigation.navigate(button)}
               disabled={false}
             >
