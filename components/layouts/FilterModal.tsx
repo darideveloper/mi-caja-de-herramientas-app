@@ -165,84 +165,83 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
-      <View className={`flex-1 justify-end bg-black/50`}>
-        <View className={`w-full rounded-t-3xl bg-white p-8`} style={{ maxHeight: '90%' }}>
-          <ScrollView
-            contentContainerStyle={{ paddingBottom: 24, width: '100%' }}
-            showsVerticalScrollIndicator={false}>
-            <View className={`mb-8 flex-row items-center justify-between`}>
-              <Text className={`text-2xl font-bold text-purpleDark`}>Filtros</Text>
-              <Btn
-                iconSource={require('../../assets/icons/close.png')}
-                onPress={onClose}
-                className={`!h-10 !w-10 !bg-transparent !p-0`}
-                classNameIcon={`w-6 h-6`}
-              />
-            </View>
-
-            {/* Dropdown for mood (from API) */}
-            <View className="mb-6 w-full">
-              <Text className="mb-2 text-base font-semibold text-black">Estados de ánimo</Text>
-              <Dropdown
-                options={groups}
-                selected={selectedGroup}
-                onSelect={(option) => setSelectedGroup(option)}
-                placeholder="Selecciona un estado"
-                loading={groupsLoading}
-                error={groupsError}
-              />
-            </View>
-
-            {/* Categories from API */}
-            <View className="mb-6 flex w-full">
-              <Text className="mb-2 text-base font-semibold text-black">Categorías</Text>
-              {categoriesLoading ? (
-                <ActivityIndicator size="small" color="#888" />
-              ) : categoriesError ? (
-                <Text className="text-red-500">{categoriesError}</Text>
-              ) : (
-                <View className="w-full flex-row flex-wrap items-center justify-center gap-2">
-                  {categories.map((cat) => (
-                    <TouchableOpacity
-                      key={cat.id}
-                      onPress={() => toggleCategory(cat.id)}
-                      className={`flex-row items-center rounded-full border px-4 py-2 ${selectedCategories.includes(cat.id) ? 'border-purple bg-purple/10' : 'border-purple/30 bg-white'}`}
-                      style={{ marginBottom: 8 }}>
-                      <Image
-                        source={{ uri: cat.icon }}
-                        style={{ width: 22, height: 22, marginRight: 8, borderRadius: 11 }}
-                      />
-                      <Text
-                        className={`text-base ${selectedCategories.includes(cat.id) ? 'text-purple' : 'text-black'}`}>
-                        {cat.name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              )}
-            </View>
-
-            {/* Duration Slider */}
-            <DurationSlider
-              durations={durations}
-              value={selectedDuration}
-              onChange={setSelectedDuration}
-            />
-          </ScrollView>
-          <View className={`flex-row justify-between gap-4`} style={{ marginTop: 16 }}>
-            <Btn onPress={onClose} className={`flex-1 border-2 border-purple !bg-transparent`}>
-              <Text className={`text-lg text-purple`}>Cancelar</Text>
-            </Btn>
-
+    <View
+      className={`absolute bottom-0 left-0 right-0 flex justify-end bg-black/50 h-full pb-16 z-50 ${isVisible ? 'block' : 'hidden'}`}>
+      <View className={`h-full w-full rounded-t-3xl bg-white p-8`} style={{ maxHeight: '70%' }}>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 24, width: '100%', alignSelf: 'center' }}
+          showsVerticalScrollIndicator={false}>
+          <View className={`mb-8 flex-row items-center justify-between`}>
+            <Text className={`text-2xl font-bold text-purpleDark`}>Filtros</Text>
             <Btn
-              onPress={handleApplyFilters}
-              className={`flex-1 border-2 border-blue !bg-transparent`}>
-              <Text className={`text-lg font-bold text-blue`}>Aplicar</Text>
-            </Btn>
+              iconSource={require('../../assets/icons/close.png')}
+              onPress={onClose}
+              className={`!h-10 !w-10 !bg-transparent !p-0`}
+              classNameIcon={`w-6 h-6`}
+            />
           </View>
+
+          {/* Dropdown for mood (from API) */}
+          <View className="mb-6 w-full">
+            <Text className="mb-2 text-base font-semibold text-black">Estados de ánimo</Text>
+            <Dropdown
+              options={groups}
+              selected={selectedGroup}
+              onSelect={(option) => setSelectedGroup(option)}
+              placeholder="Selecciona un estado"
+              loading={groupsLoading}
+              error={groupsError}
+            />
+          </View>
+
+          {/* Categories from API */}
+          <View className="mb-6 flex w-full">
+            <Text className="mb-2 text-base font-semibold text-black">Categorías</Text>
+            {categoriesLoading ? (
+              <ActivityIndicator size="small" color="#888" />
+            ) : categoriesError ? (
+              <Text className="text-red-500">{categoriesError}</Text>
+            ) : (
+              <View className="w-full flex-row flex-wrap items-center justify-center gap-2">
+                {categories.map((cat) => (
+                  <TouchableOpacity
+                    key={cat.id}
+                    onPress={() => toggleCategory(cat.id)}
+                    className={`flex-row items-center rounded-full border px-4 py-2 ${selectedCategories.includes(cat.id) ? 'border-purple bg-purple/10' : 'border-purple/30 bg-white'}`}
+                    style={{ marginBottom: 8 }}>
+                    <Image
+                      source={{ uri: cat.icon }}
+                      style={{ width: 22, height: 22, marginRight: 8, borderRadius: 11 }}
+                    />
+                    <Text
+                      className={`text-base ${selectedCategories.includes(cat.id) ? 'text-purple' : 'text-black'}`}>
+                      {cat.name}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </View>
+
+          {/* Duration Slider */}
+          <DurationSlider
+            durations={durations}
+            value={selectedDuration}
+            onChange={setSelectedDuration}
+          />
+        </ScrollView>
+        <View className={`flex-row justify-between gap-4`} style={{ marginTop: 16 }}>
+          <Btn onPress={onClose} className={`flex-1 border-2 border-purple !bg-transparent`}>
+            <Text className={`text-lg text-purple`}>Cancelar</Text>
+          </Btn>
+
+          <Btn
+            onPress={handleApplyFilters}
+            className={`flex-1 border-2 border-blue !bg-transparent`}>
+            <Text className={`text-lg font-bold text-blue`}>Aplicar</Text>
+          </Btn>
         </View>
       </View>
-    </Modal>
+    </View>
   );
 }

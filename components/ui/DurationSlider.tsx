@@ -9,7 +9,7 @@ interface DurationSliderProps {
 
 export default function DurationSlider({ durations, value, onChange }: DurationSliderProps) {
   return (
-    <View style={{ marginBottom: 32 }}>
+    <View style={{ marginBottom: 0 }}>
       <View style={{ alignItems: 'center', marginBottom: 16 }}>
         <Text style={{ fontSize: 20, color: '#101010', fontWeight: 'bold', marginBottom: 4 }}>
           Duración
