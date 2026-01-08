@@ -11,7 +11,8 @@
     },
     "plugins": [
       "expo-audio",
-      "expo-video"
+      "expo-video",
+      "expo-asset"
     ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -42,9 +43,7 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
       ],
-      "package": "com.daridev.micajadeherramientas",
-      "navigationBarColor": "#3a2546",
-      "navigationBarStyle": "dark"
+      "package": "com.daridev.micajadeherramientas"
     },
     "extra": {
       "eas": {

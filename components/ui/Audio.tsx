@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { View } from 'react-native';
-import { Audio as ExpoAudio } from 'expo-av';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useFocusEffect } from '@react-navigation/native';
 import Btn from './Btn';
 import Text from './Text';
-
-// Hooks
-import { useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function Audio({ audioSrc }: { audioSrc: string }) {
   // Static data
@@ -17,9 +14,11 @@ export default function Audio({ audioSrc }: { audioSrc: string }) {
     ended: 'Practica de nuevo',
   };
 
+  // Audio Player
+  const player = useAudioPlayer(audioSrc);
+  const status = useAudioPlayerStatus(player);
+
   // Component state
-  const [sound, setSound] = useState<ExpoAudio.Sound | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [text, setText] = useState(texts['ready']);
   const [alreadyPlayed, setAlreadyPlayed] = useState(false);
 
@@ -27,87 +26,52 @@ export default function Audio({ audioSrc }: { audioSrc: string }) {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        if (isPlaying) {
-          sound?.replayAsync();
-          sound?.pauseAsync();
-          setIsPlaying(false);
+        if (player.playing) {
+          player.pause();
+          // We don't need to manually reset to start if we just pause,
+          // but existing logic did replayAsync()+pauseAsync().
+          // We'll just pause here to be safe and simple.
           setText(texts['paused']);
         }
       };
-    }, [isPlaying, sound])
+    }, [player, texts])
   );
 
-  // Manage audio play and pause status
-  useEffect(() => {
-    if (isPlaying) {
-      // Play and update text
-      sound?.playAsync();
-      setText(texts['playing']);
+  // Handle Play/Pause Toggle
+  const togglePlayback = () => {
+    if (player.playing) {
+      player.pause();
+    } else {
+      player.play();
+    }
+  };
 
-      // Set already played to true
+  // React to status changes for Text updates
+  useEffect(() => {
+    if (status.playing) {
+      setText(texts['playing']);
       if (!alreadyPlayed) {
         setAlreadyPlayed(true);
       }
     } else {
-      // Pause and update text
-      sound?.pauseAsync();
-      if (alreadyPlayed) {
+      // If we paused (and not finished), update text
+      if (alreadyPlayed && !status.didJustFinish) {
         setText(texts['paused']);
       }
     }
-  }, [isPlaying]);
 
-  // Detect when the audio ends and restart it
-  useEffect(() => {
-    if (sound) {
-      sound.setOnPlaybackStatusUpdate((status) => {
-        if (status.isLoaded && status.didJustFinish) {
-          // Restart the audio
-          sound.replayAsync();
+    if (status.didJustFinish) {
+      // Logic from original: Restart, Pause, Text update
+      player.seekTo(0);
+      player.pause();
 
-          // Pause audio
-          sound.pauseAsync();
-          setIsPlaying(false);
-
-          // Update text
-          setTimeout(() => {
-            setText(texts['ended']);
-          }, 50);
-        }
-      });
+      setTimeout(() => {
+        setText(texts['ended']);
+      }, 50);
     }
-  }, [sound]);
+  }, [status.playing, status.didJustFinish, alreadyPlayed, texts, player]);
 
-  // Unload sound when component unmounts
-  useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
-
-  // Load sound when component mounts
-  useEffect(() => {
-    const loadSound = async () => {
-      const { sound: loadedSound } = await ExpoAudio.Sound.createAsync(
-        { uri: audioSrc },
-        { shouldPlay: false, isLooping: false }
-      );
-      setSound(loadedSound);
-    };
-
-    loadSound();
-  }, [audioSrc]);
-
-  // Unload sound when component unmounts
-  useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
+  // Cleanup is handled by useAudioPlayer hook automatically
 
   return (
     <View
@@ -118,11 +82,11 @@ export default function Audio({ audioSrc }: { audioSrc: string }) {
       `}>
       <Btn
         iconSource={
-          isPlaying
+          player.playing
             ? require('../../assets/icons/audio-pause.png')
             : require('../../assets/icons/audio-play.png')
         }
-        onPress={() => setIsPlaying(!isPlaying)}
+        onPress={togglePlayback}
         className={`
           absolute
           left-0
