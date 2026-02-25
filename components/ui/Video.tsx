@@ -36,27 +36,35 @@ export default function Video({
   useFocusEffect(
     useCallback(() => {
       return () => {
-        if (isPlaying) {
-          player.pause(); // Pause the video
-          setIsPlaying(false); // Update the state
+        try {
+          if (isPlaying && player) {
+            player.pause(); // Pause the video
+            setIsPlaying(false); // Update the state
+          }
+        } catch (e) {
+          console.log('Video: player already released during blur');
         }
       };
     }, [isPlaying, player])
   );
 
   useEffect(() => {
-    if (isPlaying) {
-      player.play();
+    try {
+      if (isPlaying) {
+        player.play();
 
-      // Fade out the overlay when the video starts playing
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 500,
-        useNativeDriver: true,
-      }).start();
+        // Fade out the overlay when the video starts playing
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
 
-    } else {
-      player.pause();
+      } else {
+        player.pause();
+      }
+    } catch (e) {
+      // Ignore errors if player is released
     }
   }, [isPlaying]);
 

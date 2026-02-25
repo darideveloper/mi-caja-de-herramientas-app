@@ -5,15 +5,15 @@ import { useFocusEffect } from '@react-navigation/native';
 import Btn from './Btn';
 import Text from './Text';
 
-export default function Audio({ audioSrc }: { audioSrc: string }) {
-  // Static data
-  const texts = {
-    ready: 'Empezar a practicar',
-    playing: 'En práctica',
-    paused: 'Continua practicando',
-    ended: 'Practica de nuevo',
-  };
+// Static data moved outside to avoid re-creation and triggering effect cleanups
+const texts = {
+  ready: 'Empezar a practicar',
+  playing: 'En práctica',
+  paused: 'Continua practicando',
+  ended: 'Practica de nuevo',
+};
 
+export default function Audio({ audioSrc }: { audioSrc: string }) {
   // Audio Player
   const player = useAudioPlayer(audioSrc);
   const status = useAudioPlayerStatus(player);
@@ -26,23 +26,29 @@ export default function Audio({ audioSrc }: { audioSrc: string }) {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        if (player.playing) {
-          player.pause();
-          // We don't need to manually reset to start if we just pause,
-          // but existing logic did replayAsync()+pauseAsync().
-          // We'll just pause here to be safe and simple.
-          setText(texts['paused']);
+        try {
+          if (player && player.playing) {
+            player.pause();
+            setText(texts['paused']);
+          }
+        } catch (e) {
+          // Ignore errors when the player is already released
+          console.log('Audio: player already released during blur');
         }
       };
-    }, [player, texts])
+    }, [player]) // Removed texts from dependencies
   );
 
   // Handle Play/Pause Toggle
   const togglePlayback = () => {
-    if (player.playing) {
-      player.pause();
-    } else {
-      player.play();
+    try {
+      if (player.playing) {
+        player.pause();
+      } else {
+        player.play();
+      }
+    } catch (e) {
+      console.error('Audio: Error toggling playback:', e);
     }
   };
 
@@ -62,14 +68,18 @@ export default function Audio({ audioSrc }: { audioSrc: string }) {
 
     if (status.didJustFinish) {
       // Logic from original: Restart, Pause, Text update
-      player.seekTo(0);
-      player.pause();
+      try {
+        player.seekTo(0);
+        player.pause();
+      } catch (e) {
+        // Ignore errors if player is released
+      }
 
       setTimeout(() => {
         setText(texts['ended']);
       }, 50);
     }
-  }, [status.playing, status.didJustFinish, alreadyPlayed, texts, player]);
+  }, [status.playing, status.didJustFinish, alreadyPlayed, player]); // Removed texts from dependencies
 
   // Cleanup is handled by useAudioPlayer hook automatically
 
