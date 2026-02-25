@@ -11,9 +11,11 @@ export const usePlatformSafeArea = () => {
   const getBottomPadding = (basePadding: number = 0) => {
     const safeAreaBottom = insets.bottom;
     
-    // Minimal padding for Android navigation bar
+    // Android navigation bar - provide a consistent buffer
     if (Platform.OS === 'android') {
-      return safeAreaBottom + basePadding + 1;
+      // If safeAreaBottom is 0 (not translucent), we still want a small buffer
+      // If it's > 0 (translucent), we use the inset
+      return (safeAreaBottom || 4) + basePadding;
     }
     
     // iOS home indicator

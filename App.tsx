@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
+import * as SystemUI from 'expo-system-ui';
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
@@ -20,7 +22,7 @@ import { View } from 'react-native';
 import { LoadingProvider } from './context/LoadingContext';
 
 // Hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Styles
 import './global.css';
@@ -31,6 +33,17 @@ const RootStack = createNativeStackNavigator();
 export default function App() {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [currentScreen, setCurrentScreen] = useState('Home');
+
+  useEffect(() => {
+    // Set root view background color (iOS)
+    SystemUI.setBackgroundColorAsync('#3a2546');
+
+    // Set Android navigation bar color and button style
+    if (Platform.OS === 'android') {
+      NavigationBar.setBackgroundColorAsync('#3a2546');
+      NavigationBar.setButtonStyleAsync('light');
+    }
+  }, []);
 
   return (
     <LoadingProvider>

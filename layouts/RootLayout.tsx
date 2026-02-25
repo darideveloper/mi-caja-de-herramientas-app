@@ -22,7 +22,7 @@ export default function RootLayout({ children, className }: RootLayoutProps) {
     <View 
       className={`
         ${className}
-        bg-purple
+        bg-purpleDark
         text-black
         flex-1
         relative
