@@ -76,7 +76,9 @@ export default function Video({
       
       <VideoView
         player={player}
-        allowsFullscreen
+        fullscreenOptions={{
+          allowsFullscreen: true,
+        }}
         allowsPictureInPicture
         style={{
           width: '100%',

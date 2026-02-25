@@ -7,10 +7,10 @@ import { getAccessToken } from 'store/tokens';
  * @param {string} endpoint - The API endpoint to fetch data from
  * @returns {Promise<void>} Nothing
  */
-export async function fetchData(endpoint: string, backstask: boolean = true): Promise<object[]> {
+export async function fetchData(endpoint: string, appendSlash: boolean = true): Promise<object[]> {
   try {
     
-    // Wait until acess token its ready
+    // Wait until access token its ready
     let accessToken = '';
     while (true) {
       accessToken = await getAccessToken() || '';
@@ -30,8 +30,8 @@ export async function fetchData(endpoint: string, backstask: boolean = true): Pr
     };
 
     let fullEndpoint = `${process.env.EXPO_PUBLIC_API_BASE}/${endpoint}`;
-    if (backstask) {
-      fullEndpoint += '\\'
+    if (appendSlash) {
+      fullEndpoint += '/'
     }
     const response = await fetch(fullEndpoint, requestOptions);
     console.log({response})
