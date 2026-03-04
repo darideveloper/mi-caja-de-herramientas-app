@@ -1,11 +1,12 @@
 import { fetch, FetchRequestInit } from 'expo/fetch';
 import { getAccessToken } from 'store/tokens';
+import { refreshTokens } from 'lib/auth';
 
 /**
  * Fetches data from the API using the stored access token
  *
  * @param {string} endpoint - The API endpoint to fetch data from
- * @returns {Promise<void>} Nothing
+ * @returns {Promise<object[]>} The fetched data
  */
 export async function fetchData(endpoint: string, appendSlash: boolean = true): Promise<object[]> {
   try {
@@ -20,7 +21,6 @@ export async function fetchData(endpoint: string, appendSlash: boolean = true): 
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     
-    console.log({accessToken, endpoint})
     const myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${accessToken}`);
     
@@ -33,18 +33,33 @@ export async function fetchData(endpoint: string, appendSlash: boolean = true): 
     if (appendSlash) {
       fullEndpoint += '/'
     }
-    const response = await fetch(fullEndpoint, requestOptions);
-    console.log({response})
-    const jsonData = await response.json();
+    let response = await fetch(fullEndpoint, requestOptions);
+    let jsonData = await response.json();
 
-    // Get resuluts only if is required
+    // If token is expired, attempt to refresh and retry once
+    if (response.status === 401 && jsonData.data?.code === 'token_not_valid') {
+      console.log('Token expired, refreshing...');
+      const refreshResult = await refreshTokens();
+      
+      if ('status' in refreshResult && (refreshResult as { status: number }).status !== 200) {
+        console.error('Failed to refresh token');
+        return [];
+      }
+
+      // Retry with new token
+      accessToken = await getAccessToken() || '';
+      myHeaders.set('Authorization', `Bearer ${accessToken}`);
+      response = await fetch(fullEndpoint, requestOptions);
+      jsonData = await response.json();
+    }
+
+    // Get results only if is required
     let results = [];
     if (jsonData.results != undefined) {
       results = jsonData.results;
     } else {
       results = jsonData;
     }
-    console.log({endpoint, results})
     return results
   } catch (error) {
     console.error('Error fetching data:', error);

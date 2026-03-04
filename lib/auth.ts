@@ -1,5 +1,5 @@
 import { fetch, FetchRequestInit } from 'expo/fetch';
-import { setAccessToken, setRefreshToken } from 'store/tokens';
+import { setAccessToken, setRefreshToken, getRefreshToken } from 'store/tokens';
 
 interface TokenData {
   refresh: string;
@@ -49,3 +49,47 @@ export async function loginGuest(): Promise<ApiResponse | { status: number }> {
   return jsonData as ApiResponse;
 }
 
+/**
+ * Refresh the access and refresh tokens
+ * 
+ * @returns {Promise<ApiResponse | { status: number }>}
+ */
+export async function refreshTokens(): Promise<ApiResponse | { status: number }> {
+  const refreshToken = await getRefreshToken();
+  if (!refreshToken) {
+    return { status: 401 };
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+
+  const raw = JSON.stringify({
+    refresh: refreshToken,
+  });
+
+  const requestOptions: FetchRequestInit = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+  };
+
+  // Refresh tokens and validate response
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE}/token/refresh/`, requestOptions);
+  if (response.status !== 200) {
+    return { status: response.status };
+  }
+
+  // Get new tokens
+  const jsonData = await response.json();
+
+  // Update tokens
+  if (jsonData.data && jsonData.data.access) {
+    await setAccessToken(jsonData.data.access);
+  }
+  if (jsonData.data && jsonData.data.refresh) {
+    await setRefreshToken(jsonData.data.refresh);
+  }
+
+  // Return data
+  return jsonData as ApiResponse;
+}
