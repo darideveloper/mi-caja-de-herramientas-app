@@ -30,7 +30,7 @@ export default function RootLayout({ children, className }: RootLayoutProps) {
         justify-center
       `}
       style={{
-        paddingTop: getTopPadding(10),
+        paddingTop: getTopPadding(0),
         paddingBottom: getNavigationBarHeight(), // Use precise navigation bar height
       }}
     > 

@@ -4,6 +4,7 @@ import RootLayout from 'layouts/RootLayout';
 // Sections
 import PostHeader from '../components/layouts/PostHeader';
 import PostBody from '../components/layouts/PostBody';
+import Header from '../components/layouts/Header';
 
 // Components
 import { ScrollView } from 'react-native';
@@ -74,6 +75,7 @@ export default function PostScreen() {
           debug
           w-full
         `}>
+        <Header screenName="Post" />
         {(!postData) ? (
           <View
             className={`

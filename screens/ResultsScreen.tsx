@@ -9,6 +9,7 @@ import RootLayout from 'layouts/RootLayout';
 import PostsList from '../components/layouts/PostsList';
 import ResultsHeader from 'components/layouts/ResultsHeader';
 import FilterModal from 'components/layouts/FilterModal';
+import Header from 'components/layouts/Header';
 
 // Libs
 import { fetchData } from '../lib/api';
@@ -94,6 +95,7 @@ export default function ResultsScreen() {
     <>
       <RootLayout className={'bg-purpleDark'}>
         <ScrollView className={'debug w-full'} contentContainerStyle={{ flexGrow: 1 }}>
+          <Header screenName="Results" />
           {isLoading ? (
             <View className={'flex h-screen items-center justify-center'}>
               <ActivityIndicator size="large" color="#ffffff" />

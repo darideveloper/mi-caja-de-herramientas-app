@@ -5,6 +5,7 @@ import RootLayout from 'layouts/RootLayout';
 import Hero from '../components/layouts/Hero';
 import CategoryButtons from '../components/layouts/GroupButtons';
 import PostsList from '../components/layouts/PostsList';
+import Header from '../components/layouts/Header';
 
 // Components
 import { ScrollView } from 'react-native';
@@ -77,6 +78,7 @@ export default function Home() {
   return (
     <RootLayout>
       <ScrollView>
+        <Header screenName="Home" />
         <Hero />
         <CategoryButtons />
         <PostsList 

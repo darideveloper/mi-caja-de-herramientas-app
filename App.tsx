@@ -24,6 +24,7 @@ import DrawerMenu from './components/layouts/DrawerMenu';
 
 // Context
 import { LoadingProvider } from './context/LoadingContext';
+import { DrawerProvider, useDrawer } from './context/DrawerContext';
 
 // Hooks
 import { useState, useEffect } from 'react';
@@ -34,9 +35,9 @@ import './global.css';
 // Setup screens
 const RootStack = createNativeStackNavigator();
 
-export default function App() {
-  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+function AppContent() {
   const [currentScreen, setCurrentScreen] = useState('Home');
+  const { isDrawerVisible, openDrawer, closeDrawer } = useDrawer();
 
   useEffect(() => {
     // Set root view background color (iOS)
@@ -50,45 +51,50 @@ export default function App() {
   }, []);
 
   return (
-    <LoadingProvider>
-      <SafeAreaProvider>
-        <StatusBar 
-          style="light" 
-          backgroundColor="#3a2546"
-          translucent={Platform.OS === 'android'}
-        />
-        <NavigationContainer
-          onStateChange={(state) => {
-            const currentRouteName = state?.routes[state.index]?.name;
-            if (currentRouteName) {
-              setCurrentScreen(currentRouteName);
-            }
+    <NavigationContainer
+      onStateChange={(state) => {
+        const currentRouteName = state?.routes[state.index]?.name;
+        if (currentRouteName) {
+          setCurrentScreen(currentRouteName);
+        }
+      }}>
+      {/* Page container*/}
+      <View style={{ flex: 1 }}>
+        <RootStack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false, // Hide default header
           }}>
-          {/* Page container*/}
-          <View style={{ flex: 1 }}>
-            <RootStack.Navigator
-              initialRouteName="Home"
-              screenOptions={{
-                headerShown: false, // Hide default header
-              }}>
-              {/* Pages */}
-              <RootStack.Screen name="Home" component={HomeScreen} />
-              <RootStack.Screen name="Favorites" component={FavoritesScreen} />
-              <RootStack.Screen name="Post" component={PostScreen} />
-              <RootStack.Screen name="Results" component={ResultsScreen} />
-            </RootStack.Navigator>
+          {/* Pages */}
+          <RootStack.Screen name="Home" component={HomeScreen} />
+          <RootStack.Screen name="Favorites" component={FavoritesScreen} />
+          <RootStack.Screen name="Post" component={PostScreen} />
+          <RootStack.Screen name="Results" component={ResultsScreen} />
+        </RootStack.Navigator>
 
-            {/* Custom header / Nav bar */}
-            <Nav currentRoute={currentScreen} />
-          </View>
+        {/* Custom Nav bar */}
+        <Nav currentRoute={currentScreen} />
+      </View>
 
-          {/* Header with menu/back button - Outside main container for proper z-index */}
-          <Header onMenuPress={() => setIsDrawerVisible(true)} screenName={currentScreen} />
+      {/* Drawer Menu - Moved to context control */}
+      <DrawerMenu isVisible={isDrawerVisible} onClose={closeDrawer} />
+    </NavigationContainer>
+  );
+}
 
-          {/* Drawer Menu - Outside main container for proper z-index */}
-          <DrawerMenu isVisible={isDrawerVisible} onClose={() => setIsDrawerVisible(false)} />
-        </NavigationContainer>
-      </SafeAreaProvider>
+export default function App() {
+  return (
+    <LoadingProvider>
+      <DrawerProvider>
+        <SafeAreaProvider>
+          <StatusBar 
+            style="light" 
+            backgroundColor="#3a2546"
+            translucent={Platform.OS === 'android'}
+          />
+          <AppContent />
+        </SafeAreaProvider>
+      </DrawerProvider>
     </LoadingProvider>
   );
 }
