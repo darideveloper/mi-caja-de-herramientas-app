@@ -53,12 +53,12 @@ export default function PostScreen() {
     fetchData(`posts/${id}`).then((data: any) => {
       const typedData = data as PostDataType;
       setPostData(typedData);
-      
+
       // Save to visited posts
       const postSummary: PostSummaryType = {
         id: typedData.id,
         title: typedData.title,
-        post_type: typedData.video_link ? 'video' : typedData.audio_link ? 'audio' : 'social'
+        post_type: typedData.video_link ? 'video' : typedData.audio_link ? 'audio' : 'social',
       };
       storage.saveVisitedPost(postSummary);
     });
@@ -76,15 +76,14 @@ export default function PostScreen() {
           w-full
         `}>
         <Header screenName="Post" />
-        {(!postData) ? (
+        {!postData ? (
           <View
             className={`
               flex
               h-screen
               items-center
               justify-center  
-            `}
-          >
+            `}>
             <ActivityIndicator size="large" color="#ffffff" />
           </View>
         ) : (
@@ -94,13 +93,12 @@ export default function PostScreen() {
               postUnderline={postData?.category?.name || ''}
               durationMin={postData?.duration || 0}
             />
-            <PostBody 
+            <PostBody
               text={postData?.text || ''}
               links={postData?.links || []}
               imageLink={postData?.image || undefined}
               audioLink={postData?.audio_link || undefined}
               videoLink={postData?.video_link || undefined}
-            
             />
           </>
         )}

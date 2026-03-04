@@ -31,6 +31,7 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
       className={`
         body
         bg-white
+        pb-12
         pt-24
     `}>
       {/* Text */}
@@ -39,6 +40,7 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
           className={`
             text-wrapper
             mx-auto
+            mb-12
             w-10/12
             rounded-3xl
             bg-white
@@ -46,7 +48,6 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
             py-4
             shadow-md
             shadow-purpleDark
-            mb-12
           `}>
           <Text
             className={`
@@ -65,11 +66,11 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
           className={`
             links-wrapper
             mx-auto
+            mb-12
             w-10/12
             flex-row
             justify-center
             gap-6
-            mb-12
           `}>
           {links.map((link: PostLinkType) => (
             <Btn
@@ -96,8 +97,7 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
       )}
 
       {/* Image */}
-      {
-        imageLink &&
+      {imageLink && (
         <View
           className={`
             img-wrapper
@@ -106,13 +106,9 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
             w-full
             bg-white
           `}>
-          <Image
-            source={getAbsoluteUrl(imageLink)}
-            className="w-full h-full"
-            contentFit="cover"
-          />
+          <Image source={getAbsoluteUrl(imageLink)} className="h-full w-full" contentFit="cover" />
         </View>
-      }
+      )}
 
       {/* Audio player */}
       {audioLink && <Audio audioSrc={audioLink} />}
