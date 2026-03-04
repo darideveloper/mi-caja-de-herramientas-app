@@ -15,13 +15,13 @@ interface PostHeaderProps {
 }
 
 export default function PostHeader({ postTitle, postUnderline, durationMin }: PostHeaderProps) {
-  
   // States
   const [isfav, setIsFav] = useState<boolean>(false);
 
   return (
-    <View
-      className={`
+    <View className={`bg-white`}>
+      <View
+        className={`
         relative
         inline-block
         w-full
@@ -31,20 +31,20 @@ export default function PostHeader({ postTitle, postUnderline, durationMin }: Po
         pb-24
         pt-24
       `}>
-      <Image
-        source={require('../../assets/imgs/glow-large.png')}
-        contentFit="cover"
-        className={`
+        <Image
+          source={require('../../assets/imgs/glow-large.png')}
+          contentFit="cover"
+          className={`
           absolute
           left-0
           top-0
           h-96
           w-full
         `}
-      />
+        />
 
-      <Title
-        className={`
+        <Title
+          className={`
           mb-4
           inline-block
           text-center
@@ -52,22 +52,22 @@ export default function PostHeader({ postTitle, postUnderline, durationMin }: Po
           font-bold
           capitalize
         `}>
-        {postUnderline}
-      </Title>
+          {postUnderline}
+        </Title>
 
-      <Text
-        className={`
+        <Text
+          className={`
           text-center
           text-xl
+          capitalize
           text-white
           underline
-          capitalize
         `}>
-        {postTitle}
-      </Text>
+          {postTitle}
+        </Text>
 
-      <Text
-        className={`
+        <Text
+          className={`
           duration
           absolute
           bottom-10
@@ -76,17 +76,17 @@ export default function PostHeader({ postTitle, postUnderline, durationMin }: Po
           text-xl
           text-white
         `}>
-        <Text
-          className={`
+          <Text
+            className={`
             font-bold
           `}>
-          {durationMin}&nbsp;
+            {durationMin}&nbsp;
+          </Text>
+          min
         </Text>
-        min
-      </Text>
 
-      <Btn
-        className={`
+        <Btn
+          className={`
           absolute
           bottom-5
           right-10
@@ -96,13 +96,14 @@ export default function PostHeader({ postTitle, postUnderline, durationMin }: Po
           !bg-transparent
           p-0
         `}
-        iconSource={
-          isfav
-            ? require('../../assets/icons/fav-active.png')
-            : require('../../assets/icons/fav-no-active.png')
-        }
-        onPress={() => setIsFav(!isfav)}
-      />
+          iconSource={
+            isfav
+              ? require('../../assets/icons/fav-active.png')
+              : require('../../assets/icons/fav-no-active.png')
+          }
+          onPress={() => setIsFav(!isfav)}
+        />
+      </View>
     </View>
   );
 }
