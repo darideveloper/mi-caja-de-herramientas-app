@@ -127,8 +127,7 @@ export default function ResultsScreen() {
           // Construct the API query
           const params = new URLSearchParams();
           if (filters.groupId) params.append('group', filters.groupId.toString());
-          if (filters.categoryIds.length > 0)
-            params.append('category', filters.categoryIds.join(','));
+          if (filters.categoryId) params.append('category', filters.categoryId.toString());
           if (filters.duration) params.append('duration', filters.duration.toString());
           params.append('summary', 'true');
 

@@ -34,6 +34,7 @@ export async function fetchData(endpoint: string, appendSlash: boolean = true): 
       fullEndpoint += '/'
     }
     let response = await fetch(fullEndpoint, requestOptions);
+    console.log({fullEndpoint, response})
     let jsonData = await response.json();
 
     // If token is expired, attempt to refresh and retry once

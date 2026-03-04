@@ -26,7 +26,7 @@ interface FilterModalProps {
   onClose: () => void;
   onApplyFilters?: (filters: {
     groupId?: number;
-    categoryIds: number[];
+    categoryId?: number;
     duration?: number;
   }) => void;
 }
@@ -55,7 +55,7 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
   const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
   const sliderWidth = Dimensions.get('window').width - 96; // padding and modal margins
@@ -149,15 +149,13 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
   }, []);
 
   const toggleCategory = (catId: number) => {
-    setSelectedCategories((prev) =>
-      prev.includes(catId) ? prev.filter((c) => c !== catId) : [...prev, catId]
-    );
+    setSelectedCategoryId((prev) => (prev === catId ? null : catId));
   };
 
   const handleApplyFilters = () => {
     const filters = {
       groupId: selectedGroup?.id,
-      categoryIds: selectedCategories,
+      categoryId: selectedCategoryId || undefined,
       duration: selectedDuration || undefined,
     };
 
@@ -211,7 +209,7 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
                   <TouchableOpacity
                     key={cat.id}
                     onPress={() => toggleCategory(cat.id)}
-                    className={`flex-row items-center rounded-full border px-4 py-2 ${selectedCategories.includes(cat.id) ? 'border-purple bg-purple/10' : 'border-purple/30 bg-white'}`}
+                    className={`flex-row items-center rounded-full border px-4 py-2 ${selectedCategoryId === cat.id ? 'border-purple bg-purple/10' : 'border-purple/30 bg-white'}`}
                     style={{ marginBottom: 8 }}>
                     <Image
                       source={getAbsoluteUrl(cat.icon)}
@@ -220,7 +218,7 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
                       style={{ width: 24, height: 24 }}
                     />
                     <Text
-                      className={`text-base ${selectedCategories.includes(cat.id) ? 'text-purple' : 'text-black'}`}>
+                      className={`text-base ${selectedCategoryId === cat.id ? 'text-purple' : 'text-black'}`}>
                       {cat.name}
                     </Text>
                   </TouchableOpacity>
