@@ -8,7 +8,7 @@ import Text from '../ui/Text';
 import { ActivityIndicator } from 'react-native';
 
 // Libs
-import { fetchData } from '../../lib/api';
+import { fetchData, getAbsoluteUrl } from '../../lib/api';
 import { getGroups, setGroups } from '../../store/groups';
 import { useNavigation } from '@react-navigation/native';
 
@@ -87,7 +87,7 @@ export default function groupButtons() {
         groupsData.map((group) => (
           <Btn 
             key={group.id}
-            iconSource={{ uri: group.icon }} 
+            iconSource={getAbsoluteUrl(group.icon)} 
             onPress={() => {
               navigation.navigate("Results", {
                 groupId: group.id,

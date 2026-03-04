@@ -2,7 +2,7 @@
 
 This spec delta ensures that all remote images fetched from the API are rendered reliably using `expo-image`.
 
-## MODIFIED Requirements
+## ADDED Requirements
 
 ### Requirement: Reliable Remote Image Rendering
 The application MUST render remote images (PNG/JPG) fetched from the API (S3) reliably across both iOS and Android platforms.

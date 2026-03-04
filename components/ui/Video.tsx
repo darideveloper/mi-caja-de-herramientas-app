@@ -1,8 +1,10 @@
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { View, Pressable, Animated } from 'react-native';
-import { useState, useEffect } from 'react';
+import { Image } from 'expo-image';
+import { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
+
+const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 interface VideoProps {
   src?: string;
@@ -114,8 +116,9 @@ export default function Video({
             }, 500);
           }}
         >
-          <Animated.Image
+          <AnimatedImage
             source={overlaySrc}
+            contentFit="cover"
             style={{
               width: '100%',
               height: '100%',

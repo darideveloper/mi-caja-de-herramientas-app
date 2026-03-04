@@ -2,9 +2,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as SystemUI from 'expo-system-ui';
+import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
+
+// Register expo-image with NativeWind to support className
+cssInterop(Image, { className: 'style' });
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
@@ -16,7 +21,6 @@ import ResultsScreen from 'screens/ResultsScreen';
 import Nav from './components/layouts/Nav';
 import Header from './components/layouts/Header';
 import DrawerMenu from './components/layouts/DrawerMenu';
-import { View } from 'react-native';
 
 // Context
 import { LoadingProvider } from './context/LoadingContext';

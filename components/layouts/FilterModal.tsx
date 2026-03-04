@@ -3,7 +3,6 @@ import {
   View,
   Modal,
   Pressable,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
   PanResponder,
@@ -11,11 +10,16 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
 import Text from '../ui/Text';
 import Btn from '../ui/Btn';
-import { fetchData } from '../../lib/api';
+import { fetchData, getAbsoluteUrl } from '../../lib/api';
 import Dropdown from '../ui/Dropdown';
 import DurationSlider from '../ui/DurationSlider';
+
+// Ensure Image is registered with NativeWind locally
+cssInterop(Image, { className: 'style' });
 
 interface FilterModalProps {
   isVisible: boolean;
@@ -210,8 +214,10 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
                     className={`flex-row items-center rounded-full border px-4 py-2 ${selectedCategories.includes(cat.id) ? 'border-purple bg-purple/10' : 'border-purple/30 bg-white'}`}
                     style={{ marginBottom: 8 }}>
                     <Image
-                      source={{ uri: cat.icon }}
-                      style={{ width: 22, height: 22, marginRight: 8, borderRadius: 11 }}
+                      source={getAbsoluteUrl(cat.icon)}
+                      contentFit="contain"
+                      className="w-6 h-6 mr-2"
+                      style={{ width: 24, height: 24 }}
                     />
                     <Text
                       className={`text-base ${selectedCategories.includes(cat.id) ? 'text-purple' : 'text-black'}`}>

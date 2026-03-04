@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import {
   View,
   TouchableOpacity,
-  Image,
   Pressable,
   ActivityIndicator,
   Text as RNText,
 } from 'react-native';
+import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
 import Text from './Text';
+import { getAbsoluteUrl } from '../../lib/api';
+
+// Ensure Image is registered with NativeWind locally
+cssInterop(Image, { className: 'style' });
 
 interface DropdownOption {
   id: number;
@@ -55,8 +60,9 @@ export default function Dropdown({
         ) : selected ? (
           <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
             <Image
-              source={{ uri: selected.icon }}
-              style={{ width: 22, height: 22, marginRight: 8, borderRadius: 11 }}
+              source={getAbsoluteUrl(selected.icon)}
+              contentFit="contain"
+              className="w-[22px] h-[22px] mr-2 rounded-full"
             />
             <RNText
               style={{ fontSize: 16, color: '#101010', flex: 1, fontFamily: 'Quicksand-Regular' }}
@@ -104,8 +110,9 @@ export default function Dropdown({
                 paddingVertical: 12,
               }}>
               <Image
-                source={{ uri: option.icon }}
-                style={{ width: 22, height: 22, marginRight: 8, borderRadius: 11 }}
+                source={getAbsoluteUrl(option.icon)}
+                contentFit="contain"
+                className="w-[22px] h-[22px] mr-2 rounded-full"
               />
               <RNText
                 style={{

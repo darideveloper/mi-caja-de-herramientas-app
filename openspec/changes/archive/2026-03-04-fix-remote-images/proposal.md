@@ -1,6 +1,12 @@
-# Proposal: Fix Remote Images Not Loading
+# Change: Fix Remote Images Not Loading
 
+## Why
 Remote images (icons) fetched from the API (hosted on S3) are not visible in the app, although they work in the browser. Other remote resources (videos/audio) are working. This proposal aims to fix this by replacing the standard React Native `Image` component with `expo-image`, which is more robust and specifically designed for Expo applications.
+
+## What Changes
+- Install `expo-image`.
+- Replace `Image` imports from `react-native` with `Image` from `expo-image` in components that render remote icons.
+- Ensure that `expo-image` is used with explicit dimensions and proper `contentFit` settings.
 
 ## Problem Analysis
 - The current implementation uses the standard React Native `Image` component.

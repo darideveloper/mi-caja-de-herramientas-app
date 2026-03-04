@@ -2,7 +2,8 @@
 import { useState } from 'react';
 
 // Components
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
+import { Image } from 'expo-image';
 import Title from '../ui/Title';
 import Text from '../ui/Text';
 import Btn from '../ui/Btn';
@@ -32,6 +33,7 @@ export default function PostHeader({ postTitle, postUnderline, durationMin }: Po
       `}>
       <Image
         source={require('../../assets/imgs/glow-large.png')}
+        contentFit="cover"
         className={`
           absolute
           left-0

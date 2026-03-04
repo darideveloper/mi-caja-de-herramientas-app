@@ -1,22 +1,22 @@
 # Tasks: Fix Remote Images
 
-- [ ] Install `expo-image` dependency <!-- id: 0 -->
+- [x] Install `expo-image` dependency <!-- id: 0 -->
     - Run `npx expo install expo-image`
-- [ ] Update `components/ui/Btn.tsx` to use `expo-image` <!-- id: 1 -->
+- [x] Update `components/ui/Btn.tsx` to use `expo-image` <!-- id: 1 -->
     - Replace `Image` import
     - Update `Image` component usage
-- [ ] Update `components/ui/Dropdown.tsx` to use `expo-image` <!-- id: 2 -->
+- [x] Update `components/ui/Dropdown.tsx` to use `expo-image` <!-- id: 2 -->
     - Replace `Image` import
     - Update `Image` component usage
-- [ ] Update `components/layouts/FilterModal.tsx` to use `expo-image` <!-- id: 3 -->
+- [x] Update `components/layouts/FilterModal.tsx` to use `expo-image` <!-- id: 3 -->
     - Replace `Image` import
     - Update `Image` component usage
-- [ ] Update `components/layouts/PostBody.tsx` to use `expo-image` <!-- id: 4 -->
+- [x] Update `components/layouts/PostBody.tsx` to use `expo-image` <!-- id: 4 -->
     - Replace `Image` import
     - Update `Image` component usage
-- [ ] Update `components/ui/Video.tsx` to use `expo-image` <!-- id: 6 -->
+- [x] Update `components/ui/Video.tsx` to use `expo-image` <!-- id: 6 -->
     - Replace `Animated.Image` with `Animated.createAnimatedComponent(Image)` from `expo-image`
-- [ ] Validation <!-- id: 5 -->
+- [x] Validation <!-- id: 5 -->
     - Verify group icons on Home screen
     - Verify category icons in Filter Modal
     - Verify group icons in Dropdown (Filter Modal)

@@ -1,5 +1,10 @@
 // Components
-import { Pressable, Image, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
+
+// Ensure Image is registered with NativeWind locally
+cssInterop(Image, { className: 'style' });
 
 // Libs
 import { useState } from 'react';
@@ -68,6 +73,7 @@ export default function Btn({
         {iconSource && (
           <Image
             source={iconSource}
+            contentFit="contain"
             className={`
               h-10
               w-10

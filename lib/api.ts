@@ -51,3 +51,28 @@ export async function fetchData(endpoint: string, appendSlash: boolean = true): 
     return []
   }
 }
+
+/**
+ * Returns the absolute URL for a resource
+ * 
+ * @param {string | null | undefined} url - The URL to normalize
+ * @returns {string} The absolute URL
+ */
+export function getAbsoluteUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  
+  // If already absolute or a base64 string, return it as is
+  if (url.startsWith('http') || url.startsWith('data:')) return url;
+  
+  // Handle protocol-relative URLs
+  if (url.startsWith('//')) return `https:${url}`;
+  
+  // Get base URL from env and remove /api if present at the end
+  const apiBase = process.env.EXPO_PUBLIC_API_BASE || '';
+  const domain = apiBase.replace(/\/api\/?$/, '');
+  
+  // Ensure url starts with /
+  const path = url.startsWith('/') ? url : `/${url}`;
+  
+  return `${domain}${path}`;
+}

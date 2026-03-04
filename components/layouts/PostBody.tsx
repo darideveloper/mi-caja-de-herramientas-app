@@ -1,13 +1,19 @@
 // Components
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
+import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
 import Text from '../ui/Text';
 import Btn from '../ui/Btn';
 import Audio from '../ui/Audio';
 import Video from '../ui/Video';
 
+// Ensure Image is registered with NativeWind locally
+cssInterop(Image, { className: 'style' });
+
 // Libs
 import { Linking } from 'react-native';
 import { PostLinkType } from 'types/post';
+import { getAbsoluteUrl } from '../../lib/api';
 
 interface PostBodyProps {
   text: string;
@@ -24,9 +30,6 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
     <View
       className={`
         body
-        -z-10
-        -mt-12
-        mb-12
         bg-white
         pt-24
     `}>
@@ -71,11 +74,8 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
           {links.map((link: PostLinkType) => (
             <Btn
               key={link.id}
-              iconSource={{
-                uri: link.icon,
-              }}
+              iconSource={getAbsoluteUrl(link.icon)}
               onPress={() => {
-                // Open link in external browser
                 const url = link.url;
                 if (url) {
                   Linking.openURL(url);
@@ -101,21 +101,15 @@ export default function PostBody({ text, links, imageLink, audioLink, videoLink 
         <View
           className={`
             img-wrapper
-            debug
-            ${videoLink ? '-mb-52' : '-mb-28'}
+            ${videoLink ? 'mb-12' : 'mb-8'}
             h-96
             w-full
             bg-white
           `}>
           <Image
-            source={{
-              uri: imageLink,
-            }}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-            resizeMode="cover"
+            source={getAbsoluteUrl(imageLink)}
+            className="w-full h-full"
+            contentFit="cover"
           />
         </View>
       }
