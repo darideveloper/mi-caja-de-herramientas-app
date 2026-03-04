@@ -9,7 +9,6 @@ import { ActivityIndicator } from 'react-native';
 
 // Libs
 import { fetchData, getAbsoluteUrl } from '../../lib/api';
-import { getGroups, setGroups } from '../../store/groups';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -32,29 +31,14 @@ export default function groupButtons() {
   useEffect(() => {
 
     /**
-     * Load groups from AsyncStorage or API
+     * Load groups from API
      */
     const loadGroups = async () => {
       try {
-        // Try to get groups from AsyncStorage
-        const storedgroups = await getGroups();
-        if (storedgroups && storedgroups.length > 0 && storedgroups != undefined) {
-
-          // Type data
-          const typedData = storedgroups as group[];
-
-          // Save data
-          console.log('groups loaded from AsyncStorage:', storedgroups);
-          setGroupsData(typedData);
-          setIsLoading(false);
-        } else {
-          // Fetch groups from API if not in AsyncStorage
-          const data = await fetchData('groups');
-          const typedData = data as group[];
-          setGroupsData(typedData);
-          await setGroups(typedData); // Save groups to AsyncStorage
-          setIsLoading(false);
-        }
+        const data = await fetchData('groups');
+        const typedData = data as group[];
+        setGroupsData(typedData);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error loading groups:', error);
         setIsLoading(false);
