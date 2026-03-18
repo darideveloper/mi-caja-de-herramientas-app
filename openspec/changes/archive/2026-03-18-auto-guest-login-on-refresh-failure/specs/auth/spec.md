@@ -1,8 +1,7 @@
-# auth Specification
+# auth Specification Delta
 
-## Purpose
-TBD - created by archiving change implement-jwt-refresh. Update Purpose after archive.
-## Requirements
+## MODIFIED Requirements
+
 ### Requirement: Automatic Token Refresh on 401
 The application MUST automatically attempt to refresh the JWT `accessToken` when a request fails with a 401 status and a "token_not_valid" code.
 
@@ -14,4 +13,3 @@ The application MUST automatically attempt to refresh the JWT `accessToken` when
 - **AND** if the guest login is successful, it MUST update the stored tokens.
 - **AND** it MUST retry the original request with the new `accessToken`.
 - **AND** if both refresh and guest login fail, it MUST return an empty array or handle the error gracefully.
-

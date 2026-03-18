@@ -14,7 +14,7 @@ interface ApiResponse {
 
 /**
  * Login with guest user and password*
- * 
+ *
  * @returns {Promise<ApiResponse | { status: number }>}
  */
 export async function loginGuest(): Promise<ApiResponse | { status: number }> {
@@ -51,7 +51,7 @@ export async function loginGuest(): Promise<ApiResponse | { status: number }> {
 
 /**
  * Refresh the access and refresh tokens
- * 
+ *
  * @returns {Promise<ApiResponse | { status: number }>}
  */
 export async function refreshTokens(): Promise<ApiResponse | { status: number }> {
@@ -74,7 +74,10 @@ export async function refreshTokens(): Promise<ApiResponse | { status: number }>
   };
 
   // Refresh tokens and validate response
-  const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE}/token/refresh/`, requestOptions);
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_API_BASE}/token/refresh/`,
+    requestOptions
+  );
   if (response.status !== 200) {
     return { status: response.status };
   }
