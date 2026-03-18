@@ -17,6 +17,7 @@ import Btn from '../ui/Btn';
 import { fetchData, getAbsoluteUrl } from '../../lib/api';
 import Dropdown from '../ui/Dropdown';
 import DurationSlider from '../ui/DurationSlider';
+import { storage } from '../../lib/storage';
 
 // Ensure Image is registered with NativeWind locally
 cssInterop(Image, { className: 'style' });
@@ -123,9 +124,15 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
   useEffect(() => {
     setGroupsLoading(true);
     fetchData('groups')
-      .then((data: any) => {
+      .then(async (data: any) => {
         setGroups(data);
-        setSelectedGroup(data[0] || null);
+        const stored = await storage.getFilters();
+        if (stored?.groupId) {
+          const group = data.find((g: Group) => g.id === stored.groupId);
+          setSelectedGroup(group || data[0] || null);
+        } else {
+          setSelectedGroup(data[0] || null);
+        }
         setGroupsLoading(false);
       })
       .catch((err) => {
@@ -138,8 +145,12 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
   useEffect(() => {
     setCategoriesLoading(true);
     fetchData('categories')
-      .then((data: any) => {
+      .then(async (data: any) => {
         setCategories(data);
+        const stored = await storage.getFilters();
+        if (stored?.categoryId) {
+          setSelectedCategoryId(stored.categoryId);
+        }
         setCategoriesLoading(false);
       })
       .catch((err) => {
@@ -148,16 +159,54 @@ export default function FilterModal({ isVisible, onClose, onApplyFilters }: Filt
       });
   }, []);
 
+  // Load initial duration from storage
+  useEffect(() => {
+    const loadDuration = async () => {
+      const stored = await storage.getFilters();
+      if (stored?.duration) {
+        setSelectedDuration(stored.duration);
+      }
+    };
+    loadDuration();
+  }, []);
+
+  // Reload filters from storage when the modal becomes visible
+  // This ensures that if the user previously changed values but cancelled,
+  // the next time they open the modal they see the saved values.
+  useEffect(() => {
+    if (isVisible) {
+      const reloadStoredFilters = async () => {
+        const stored = await storage.getFilters();
+        if (stored) {
+          if (stored.groupId && groups.length > 0) {
+            const group = groups.find((g: Group) => g.id === stored.groupId);
+            setSelectedGroup(group || groups[0] || null);
+          }
+          if (stored.categoryId !== undefined) {
+            setSelectedCategoryId(stored.categoryId);
+          }
+          if (stored.duration !== undefined) {
+            setSelectedDuration(stored.duration);
+          }
+        }
+      };
+      reloadStoredFilters();
+    }
+  }, [isVisible, groups]);
+
   const toggleCategory = (catId: number) => {
     setSelectedCategoryId((prev) => (prev === catId ? null : catId));
   };
 
-  const handleApplyFilters = () => {
+  const handleApplyFilters = async () => {
     const filters = {
       groupId: selectedGroup?.id,
       categoryId: selectedCategoryId || undefined,
       duration: selectedDuration || undefined,
     };
+
+    // Save to storage
+    await storage.saveFilters(filters);
 
     if (onApplyFilters) {
       onApplyFilters(filters);
